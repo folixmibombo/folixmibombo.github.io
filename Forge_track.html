@@ -1,0 +1,1908 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forge Track — международная доставка стала проще</title>
+<meta name="description" content="Forge Track: сравнивайте логистические компании, рассчитывайте стоимость и отслеживайте свои отправления в одном месте.">
+<meta name="theme-color" content="#1257d6">
+<style>
+  :root {
+  --sky: #38bdf8;
+  --sky-strong: #0ea5e9;
+  --sky-light: #e0f2fe;
+  --sky-pale: #f0f9ff;
+  --blue: #1257d6;
+  --blue-dark: #0b3fa8;
+  --navy: #0b2a63;
+  --text: #0f2748;
+  --muted: #566b88;
+  --line: #cfe4f5;
+  --white: #ffffff;
+  --ok: #15803d;
+  --ok-bg: #dcfce7;
+  --warn: #92400e;
+  --warn-bg: #fef3c7;
+  --err: #b91c1c;
+  --err-bg: #fee2e2;
+  --radius: 18px;
+  --radius-sm: 12px;
+  --shadow: 0 10px 30px rgba(18, 87, 214, 0.10);
+  --shadow-hover: 0 18px 44px rgba(18, 87, 214, 0.18);
+  --header-h: 68px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--white);
+}
+h1, h2, h3, h4 { color: var(--navy); line-height: 1.2; margin: 0 0 0.5em; }
+p { margin: 0 0 1em; }
+a { color: var(--blue); }
+ul, ol { margin: 0; }
+[hidden] { display: none !important; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--sky-strong); outline-offset: 2px; }
+.container { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+.muted { color: var(--muted); }
+.small { font-size: 0.88rem; }
+.icon {
+  width: 1.2em; height: 1.2em; flex-shrink: 0; vertical-align: -0.22em;
+  fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--blue); color: #fff;
+  padding: 10px 16px; border-radius: 10px; text-decoration: none; transition: top 0.2s;
+}
+.skip-link:focus { top: 10px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 22px; border-radius: 999px; border: 2px solid transparent;
+  font-weight: 700; text-decoration: none; line-height: 1.2;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s, border-color 0.2s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: var(--blue); color: #fff; box-shadow: 0 8px 20px rgba(18, 87, 214, 0.28); }
+.btn-primary:hover { background: var(--blue-dark); box-shadow: 0 12px 26px rgba(18, 87, 214, 0.36); }
+.btn-secondary { background: #fff; color: var(--blue); border-color: var(--blue); }
+.btn-secondary:hover { background: var(--sky-pale); }
+.btn-ghost { background: var(--sky-light); color: var(--blue-dark); }
+.btn-ghost:hover { background: #cdeafc; }
+.btn-lg { padding: 15px 30px; font-size: 1.05rem; }
+.btn-sm { padding: 8px 16px; font-size: 0.9rem; }
+
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--header-h); z-index: 50;
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.header-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand {
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+  color: var(--navy); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.01em;
+}
+.brand-mark { width: 38px; height: 38px; flex-shrink: 0; }
+.brand-name span { color: var(--sky-strong); }
+.main-nav { display: flex; align-items: center; gap: 4px; }
+.main-nav a {
+  text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.92rem;
+  padding: 9px 13px; border-radius: 999px; white-space: nowrap; transition: background 0.2s, color 0.2s;
+}
+.main-nav a:hover { background: var(--sky-light); color: var(--blue-dark); }
+.main-nav a.active { background: var(--blue); color: #fff; }
+.nav-toggle {
+  display: none; width: 44px; height: 44px; border: 0; border-radius: 12px;
+  background: var(--sky-light); color: var(--blue-dark);
+}
+.nav-toggle .icon { width: 24px; height: 24px; }
+main { padding-top: var(--header-h); min-height: 70vh; }
+
+.page { display: none; }
+.page.active { display: block; animation: pageIn 0.4s ease both; }
+@keyframes pageIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.page-head {
+  background: linear-gradient(135deg, var(--sky-pale), #fff 70%);
+  border-bottom: 1px solid var(--line); padding: 36px 0 28px;
+}
+.page-head h1 { font-size: clamp(1.7rem, 3.5vw, 2.4rem); margin-bottom: 0.3em; }
+.page-head p { margin: 0; color: var(--muted); max-width: 780px; font-size: 1.05rem; }
+.page-body { padding: 28px 0 60px; }
+.section { padding-top: 56px; }
+.section-title { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 1em; }
+
+.card {
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 26px;
+}
+.card + .card { margin-top: 20px; }
+
+.hero {
+  position: relative; overflow: hidden; border-bottom: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--sky-pale) 0%, #fff 55%, var(--sky-light) 100%);
+}
+.hero::before {
+  content: ""; position: absolute; width: 560px; height: 560px; right: -180px; top: -220px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.35), rgba(56, 189, 248, 0) 70%);
+  pointer-events: none;
+}
+.hero-grid {
+  position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center;
+  padding-top: 56px; padding-bottom: 56px;
+}
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; margin-bottom: 18px;
+  border-radius: 999px; background: #fff; border: 1px solid var(--line);
+  color: var(--blue-dark); font-weight: 700; font-size: 0.88rem;
+}
+.hero h1 { font-size: clamp(2.1rem, 5vw, 3.6rem); letter-spacing: -0.02em; margin-bottom: 0.35em; }
+.lead { font-size: 1.2rem; max-width: 620px; }
+.hero-desc { color: var(--muted); max-width: 620px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0 22px; }
+.hero-points { list-style: none; padding: 0; display: grid; gap: 8px; color: var(--muted); font-size: 0.95rem; }
+.hero-points li { display: flex; gap: 8px; align-items: center; }
+.hero-points .icon { color: var(--ok); }
+.hero-visual { display: grid; place-items: center; }
+.hero-svg { width: 100%; max-width: 520px; height: auto; }
+.route-anim { animation: dash 1.4s linear infinite; }
+@keyframes dash { to { stroke-dashoffset: -30; } }
+
+.feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.feature-card {
+  display: flex; flex-direction: column; gap: 10px; padding: 24px; text-decoration: none; color: var(--text);
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.feature-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); border-color: var(--sky); }
+.fc-icon {
+  width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; color: #fff;
+  background: linear-gradient(135deg, var(--sky), var(--blue));
+}
+.fc-icon .icon { width: 26px; height: 26px; }
+.feature-card h3 { font-size: 1.1rem; margin: 6px 0 0; }
+.feature-card p { flex: 1; margin: 0; color: var(--muted); font-size: 0.95rem; }
+.fc-link { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--blue); }
+.fc-link .icon { transition: transform 0.2s; }
+.feature-card:hover .fc-link .icon { transform: translateX(4px); }
+
+.how-grid { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; counter-reset: how; }
+.how-grid li {
+  position: relative; padding: 24px 20px 20px; background: var(--sky-pale);
+  border: 1px solid var(--line); border-radius: var(--radius); counter-increment: how;
+}
+.how-grid li::before {
+  content: counter(how); position: absolute; top: -16px; left: 20px; width: 34px; height: 34px;
+  display: grid; place-items: center; border-radius: 50%; background: var(--blue); color: #fff; font-weight: 800;
+}
+.how-grid strong { display: block; margin-bottom: 6px; color: var(--navy); }
+.how-grid span { color: var(--muted); font-size: 0.95rem; }
+.partner-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.partner-card {
+  display: flex; align-items: center; gap: 14px; padding: 18px; text-decoration: none; color: var(--text);
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.partner-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--sky); }
+.partner-card small { display: block; color: var(--muted); }
+.cc-badge {
+  width: 46px; height: 46px; flex-shrink: 0; border-radius: 14px; display: inline-grid; place-items: center;
+  background: linear-gradient(135deg, var(--sky), var(--blue)); color: #fff; font-weight: 800; letter-spacing: 0.02em;
+}
+
+.form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 20px; margin-bottom: 22px; }
+.form-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field label, .legend { font-weight: 700; font-size: 0.92rem; color: var(--navy); }
+.field input, .field select {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--sky-pale); transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.field input:hover, .field select:hover { border-color: var(--sky); }
+.field input:focus, .field select:focus {
+  outline: none; border-color: var(--sky-strong); background: #fff; box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.28);
+}
+.field input[readonly] { background: var(--sky-light); color: var(--blue-dark); font-weight: 600; cursor: default; }
+.field input.invalid, .field select.invalid { border-color: var(--err); background: #fff5f5; }
+.hint { font-size: 0.82rem; color: var(--muted); }
+.error { font-size: 0.85rem; color: var(--err); font-weight: 600; min-height: 0; }
+.form-error {
+  margin: 14px 0 0; padding: 12px 16px; border-radius: var(--radius-sm);
+  background: var(--err-bg); color: var(--err); font-weight: 600;
+}
+fieldset { border: 0; padding: 0; margin: 0 0 20px; min-width: 0; }
+.legend { display: block; margin-bottom: 10px; }
+
+.notice { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border-radius: var(--radius-sm); margin: 16px 0; }
+.notice .icon { width: 1.5em; height: 1.5em; margin-top: 2px; }
+.notice p { margin: 4px 0 0; }
+.notice-warn { background: var(--warn-bg); color: var(--warn); }
+.notice-info { background: var(--sky-light); color: var(--blue-dark); }
+.notice-err { background: var(--err-bg); color: var(--err); }
+.notice-ok { background: var(--ok-bg); color: var(--ok); }
+.disclaimer {
+  margin: 20px 0 0; padding: 14px 18px; border-left: 4px solid var(--sky-strong);
+  background: var(--sky-pale); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 0.95rem;
+}
+.empty-state { text-align: center; padding: 44px 24px; }
+.empty-state .icon { width: 52px; height: 52px; color: var(--sky-strong); margin-bottom: 8px; }
+.empty-state p { color: var(--muted); max-width: 520px; margin-left: auto; margin-right: auto; }
+
+.stepper { list-style: none; display: flex; gap: 8px; padding: 0 0 6px; margin: 0 0 18px; overflow-x: auto; }
+.step-pill button {
+  display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 7px; border-radius: 999px;
+  border: 2px solid var(--line); background: #fff; color: var(--muted);
+  font-weight: 600; font-size: 0.88rem; white-space: nowrap; transition: 0.2s;
+}
+.step-pill button:disabled { cursor: not-allowed; opacity: 0.6; }
+.step-pill .num {
+  width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--sky-light); color: var(--blue-dark); font-weight: 800; font-size: 0.82rem;
+}
+.step-pill.current button { border-color: var(--blue); color: var(--blue-dark); background: var(--sky-pale); }
+.step-pill.current .num { background: var(--blue); color: #fff; }
+.step-pill.done button { color: var(--ok); border-color: #bbf7d0; }
+.step-pill.done .num { background: var(--ok); color: #fff; }
+.route-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; min-height: 0; }
+.chip {
+  display: inline-flex; gap: 6px; align-items: center; padding: 6px 14px; border-radius: 999px;
+  background: var(--sky-light); color: var(--blue-dark); font-size: 0.9rem;
+}
+.step-panel > * { animation: fadeUp 0.3s ease both; }
+.step-panel h2 { font-size: 1.4rem; }
+.choice-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+.choice {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px; text-align: left;
+  background: #fff; border: 2px solid var(--line); border-radius: 14px;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.choice:hover { transform: translateY(-2px); border-color: var(--sky); box-shadow: var(--shadow); }
+.choice[aria-pressed="true"] { border-color: var(--blue); background: var(--sky-pale); box-shadow: 0 0 0 3px rgba(18, 87, 214, 0.14); }
+.choice .code {
+  width: 42px; height: 42px; flex-shrink: 0; display: grid; place-items: center; border-radius: 12px;
+  background: var(--sky-light); color: var(--blue-dark); font-weight: 800;
+}
+.choice[aria-pressed="true"] .code { background: var(--blue); color: #fff; }
+.choice strong { display: block; color: var(--navy); }
+.choice small { color: var(--muted); }
+.step-panel .field { max-width: 420px; margin-top: 16px; }
+.wizard-actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; }
+.wizard-actions .btn:only-child { margin-left: auto; }
+.wizard-end { margin-top: 20px; }
+
+.offers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 16px; }
+.carrier-card {
+  display: flex; flex-direction: column; gap: 12px; padding: 22px; background: #fff;
+  border: 2px solid var(--line); border-radius: var(--radius); transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.carrier-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--sky); }
+.cc-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.cc-head h2, .cc-head h3 { margin: 0; font-size: 1.2rem; }
+.cc-head p { margin: 0; }
+.pill {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px;
+  font-size: 0.8rem; font-weight: 700; white-space: nowrap;
+}
+.pill-ok { background: var(--ok-bg); color: var(--ok); }
+.cc-facts { margin: 0; display: grid; gap: 8px; font-size: 0.92rem; }
+.cc-facts dt { font-weight: 700; color: var(--navy); }
+.cc-facts dd { margin: 0 0 4px; color: var(--muted); }
+.cc-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 6px; }
+
+.route-banner {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 16px 20px; margin-bottom: 18px; border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--blue), var(--sky-strong)); color: #fff;
+}
+.route-banner strong { font-size: 1.1rem; }
+.route-banner .btn-ghost { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.route-banner .btn-ghost:hover { background: rgba(255, 255, 255, 0.32); }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.tab {
+  display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px 10px 10px; border-radius: 999px;
+  border: 2px solid var(--line); background: #fff; font-weight: 700; color: var(--navy); transition: 0.2s;
+}
+.tab .cc-badge { width: 32px; height: 32px; border-radius: 10px; font-size: 0.8rem; }
+.tab:hover { border-color: var(--sky); }
+.tab[aria-selected="true"] { background: var(--blue); border-color: var(--blue); color: #fff; box-shadow: 0 8px 20px rgba(18, 87, 214, 0.25); }
+.tab[aria-selected="true"] .cc-badge { background: rgba(255, 255, 255, 0.22); }
+.calc-form h2 { display: flex; align-items: center; gap: 12px; font-size: 1.35rem; margin-bottom: 18px; }
+.result {
+  margin-top: 20px; border: 2px solid var(--sky); background: linear-gradient(135deg, #fff, var(--sky-pale));
+  border-radius: var(--radius); padding: 24px; animation: fadeUp 0.35s ease both;
+}
+.result:empty { display: none; }
+.result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 8px; }
+.badge {
+  display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 800;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.badge-demo { background: var(--warn-bg); color: var(--warn); }
+.badge-info { background: var(--sky-light); color: var(--blue-dark); }
+.badge-err { background: var(--err-bg); color: var(--err); }
+.result-price { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; color: var(--blue); line-height: 1.1; }
+.result-sub { margin: 6px 0 16px; color: var(--muted); font-weight: 600; }
+.breakdown { width: 100%; border-collapse: collapse; margin: 8px 0 14px; font-size: 0.95rem; }
+.breakdown th, .breakdown td { padding: 9px 4px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.breakdown td { text-align: right; font-weight: 700; white-space: nowrap; }
+.breakdown th { font-weight: 500; color: var(--muted); }
+.notes { margin: 0 0 16px; padding-left: 20px; color: var(--muted); font-size: 0.93rem; }
+.notes li + li { margin-top: 6px; }
+.result-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+
+.radio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.radio-card { position: relative; display: block; cursor: pointer; }
+.radio-card input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.rc-body {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #fff;
+  border: 2px solid var(--line); border-radius: 14px; transition: 0.2s; height: 100%;
+}
+.rc-body small { display: block; color: var(--muted); font-size: 0.82rem; }
+.radio-card:hover .rc-body { border-color: var(--sky); }
+.radio-card input:checked + .rc-body { border-color: var(--blue); background: var(--sky-pale); box-shadow: 0 0 0 3px rgba(18, 87, 214, 0.14); }
+.radio-card input:focus-visible + .rc-body { outline: 3px solid var(--sky-strong); outline-offset: 2px; }
+.inline-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.track-card { margin-top: 20px; }
+.demo-banner {
+  display: flex; gap: 10px; align-items: center; padding: 12px 16px; margin-bottom: 16px; border-radius: var(--radius-sm);
+  background: var(--warn-bg); color: var(--warn); font-weight: 600;
+}
+.demo-banner b {
+  padding: 2px 10px; border-radius: 8px; background: var(--warn); color: #fff; letter-spacing: 0.08em;
+}
+.facts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+.facts-grid > div { padding: 14px 16px; background: var(--sky-pale); border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.facts-grid span { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 2px; }
+.facts-grid strong { color: var(--navy); word-break: break-word; }
+.timeline { list-style: none; padding: 0; margin: 12px 0 0; }
+.tl-step { position: relative; padding: 0 0 22px 48px; min-height: 40px; }
+.tl-step:last-child { padding-bottom: 0; }
+.tl-step::before {
+  content: ""; position: absolute; left: 15px; top: 34px; bottom: 2px; width: 3px; border-radius: 2px; background: var(--line);
+}
+.tl-step:last-child::before { display: none; }
+.tl-step.link-done::before { background: var(--blue); }
+.tl-dot {
+  position: absolute; left: 0; top: 0; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%;
+  background: #fff; border: 3px solid var(--line); color: var(--muted); font-weight: 800; font-size: 0.85rem;
+}
+.tl-step.done .tl-dot { background: var(--blue); border-color: var(--blue); color: #fff; }
+.tl-step.current .tl-dot { box-shadow: 0 0 0 0 rgba(18, 87, 214, 0.5); animation: pulse 1.8s infinite; }
+@keyframes pulse { 70% { box-shadow: 0 0 0 12px rgba(18, 87, 214, 0); } 100% { box-shadow: 0 0 0 0 rgba(18, 87, 214, 0); } }
+.tl-title { display: block; font-weight: 700; color: var(--navy); padding-top: 4px; }
+.tl-step:not(.done) .tl-title { color: var(--muted); font-weight: 600; }
+.tl-note { display: block; font-size: 0.82rem; color: var(--muted); }
+
+.doc-layout { display: grid; grid-template-columns: 1fr 340px; gap: 22px; align-items: start; margin-top: 20px; }
+.doc-group + .doc-group { margin-top: 22px; }
+.doc-group h2 { font-size: 1.25rem; display: flex; align-items: center; gap: 10px; }
+.count-badge { background: var(--sky-light); color: var(--blue-dark); border-radius: 999px; padding: 2px 12px; font-size: 0.85rem; }
+.check-item {
+  display: flex; gap: 14px; align-items: flex-start; padding: 14px 16px; margin-top: 10px; cursor: pointer;
+  background: var(--sky-pale); border: 1.5px solid var(--line); border-radius: var(--radius-sm); transition: 0.2s;
+}
+.check-item:hover { border-color: var(--sky); }
+.check-item input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--blue); flex-shrink: 0; cursor: pointer; }
+.check-item strong { display: block; color: var(--navy); }
+.check-item span span { display: block; color: var(--muted); font-size: 0.92rem; margin-top: 2px; }
+.check-item.checked { background: var(--ok-bg); border-color: #86efac; }
+.check-item.checked strong { text-decoration: line-through; text-decoration-color: rgba(21, 128, 61, 0.5); }
+.progress { height: 12px; background: var(--sky-light); border-radius: 999px; overflow: hidden; margin: 8px 0 6px; }
+.progress-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--sky), var(--blue)); border-radius: 999px; transition: width 0.4s ease; }
+.side-stack { display: grid; gap: 16px; position: sticky; top: calc(var(--header-h) + 16px); }
+.side-stack .card + .card { margin-top: 0; }
+.side-stack h3 { font-size: 1.05rem; }
+.link-list { list-style: none; padding: 0; display: grid; gap: 10px; }
+.link-list a { display: block; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--sky-pale); text-decoration: none; font-weight: 600; }
+.link-list a:hover { background: var(--sky-light); }
+.link-list small { display: block; font-weight: 400; color: var(--muted); }
+.side-actions { display: grid; gap: 8px; margin-top: 14px; }
+
+.support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.support-grid .card + .card { margin-top: 0; }
+.support-card { display: flex; flex-direction: column; gap: 14px; }
+.support-card p { margin: 0; color: var(--muted); }
+
+.site-footer { margin-top: 40px; background: var(--navy); color: #d6e6fb; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 32px; padding-top: 48px; padding-bottom: 32px; }
+.site-footer h4 { color: #fff; font-size: 1rem; margin-bottom: 0.8em; }
+.site-footer ul { list-style: none; padding: 0; display: grid; gap: 8px; }
+.site-footer a { color: #bfe3ff; text-decoration: none; }
+.site-footer a:hover { color: #fff; text-decoration: underline; }
+.footer-brand .brand { color: #fff; }
+.footer-brand .brand-name span { color: var(--sky); }
+.tagline { margin: 12px 0 8px; font-weight: 700; color: #fff; font-size: 1.05rem; }
+.contact-list li { display: flex; align-items: center; gap: 10px; }
+.footer-bottom {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 18px; padding-bottom: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14); font-size: 0.88rem;
+}
+.footer-bottom p { margin: 0; }
+
+.toast-wrap {
+  position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 200;
+  display: grid; gap: 10px; width: min(92vw, 460px); pointer-events: none;
+}
+.toast {
+  padding: 14px 18px; border-radius: 14px; font-weight: 600; box-shadow: var(--shadow-hover);
+  background: var(--navy); color: #fff; animation: fadeUp 0.3s ease both; transition: opacity 0.3s, transform 0.3s;
+}
+.toast-error { background: var(--err); }
+.toast-ok { background: var(--ok); }
+.toast.hide { opacity: 0; transform: translateY(8px); }
+
+@media (min-width: 900px) {
+  .timeline { display: grid; grid-template-columns: repeat(6, 1fr); }
+  .tl-step { padding: 0 6px; text-align: center; min-height: 0; }
+  .tl-dot { position: relative; margin: 0 auto 10px; }
+  .tl-step::before { left: 50%; top: 16px; bottom: auto; width: 100%; height: 3px; }
+  .tl-step:last-child::before { display: none; }
+}
+@media (max-width: 1100px) {
+  .nav-toggle { display: inline-grid; place-items: center; }
+  .main-nav {
+    position: fixed; top: var(--header-h); left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 2px;
+    padding: 12px 20px 18px; background: #fff; border-bottom: 1px solid var(--line); box-shadow: var(--shadow);
+    visibility: hidden; opacity: 0; transform: translateY(-8px); transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  }
+  .main-nav.open { visibility: visible; opacity: 1; transform: none; }
+  .main-nav a { padding: 13px 16px; border-radius: 12px; font-size: 1rem; }
+  .feature-grid, .how-grid { grid-template-columns: repeat(2, 1fr); }
+  .how-grid { row-gap: 30px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; padding-top: 36px; padding-bottom: 36px; }
+  .hero-visual { order: -1; }
+  .hero-svg { max-width: 340px; }
+  .doc-layout { grid-template-columns: 1fr; }
+  .side-stack { position: static; }
+  .support-grid, .partner-row, .radio-grid { grid-template-columns: 1fr; }
+  .facts-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .container { padding: 0 16px; }
+  .card { padding: 20px 16px; }
+  .form-grid, .form-grid.cols-3, .feature-grid, .how-grid, .footer-grid, .facts-grid { grid-template-columns: 1fr; }
+  .page-head { padding: 26px 0 22px; }
+  .wizard-actions { flex-direction: column-reverse; }
+  .wizard-actions .btn { width: 100%; }
+  .hero-actions .btn { width: 100%; }
+  .route-banner { flex-direction: column; align-items: flex-start; }
+  .result-actions .btn { width: 100%; }
+  .brand { font-size: 1.15rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+.btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn .icon { width: 1.1em; height: 1.1em; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.notice a { color: inherit; font-weight: 700; }
+.result .disclaimer { margin-top: 16px; }
+.cc-facts a { word-break: break-word; }
+@media print {
+  .site-header, .site-footer, .toast-wrap, .side-actions, .nav-toggle, .skip-link { display: none !important; }
+  main { padding-top: 0; }
+  .page { display: none !important; }
+  .page.active { display: block !important; animation: none; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gBrand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#1257d6"/>
+    </linearGradient>
+  </defs>
+  <symbol id="i-brand" viewBox="0 0 40 40">
+    <rect width="40" height="40" rx="12" fill="url(#gBrand)"/>
+    <path d="M9 28l8-8 5 4 9-11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="31" cy="13" r="3" fill="#fff"/>
+  </symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 000-6H9a3 3 0 010-6h6.5"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5M12 13v8"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9L2.4 18a2 2 0 001.7 3h15.8a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.3 1.8.6 2.8.7a2 2 0 011.7 2z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 012-2h9"/></symbol>
+</svg>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#home" aria-label="Forge Track — на главную">
+      <svg class="brand-mark" aria-hidden="true"><use href="#i-brand"/></svg>
+      <span class="brand-name">Forge <span>Track</span></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Открыть меню">
+      <svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
+    </button>
+    <nav class="main-nav" id="mainNav" aria-label="Основное меню">
+      <a href="#home" data-nav="home">Главная</a>
+      <a href="#direction" data-nav="direction">Выбор направления</a>
+      <a href="#calculator" data-nav="calculator">Калькулятор доставки</a>
+      <a href="#tracking" data-nav="tracking">Отслеживание посылки</a>
+      <a href="#documents" data-nav="documents">Необходимые документы</a>
+      <a href="#support" data-nav="support">Техническая поддержка</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<section class="page active" id="page-home" aria-labelledby="homeTitle">
+  <div class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow"><svg class="icon" aria-hidden="true"><use href="#i-route"/></svg> Forge Track · логистика через Казахстан</span>
+        <h1 id="homeTitle">Международная доставка стала проще</h1>
+        <p class="lead">Сравнивайте логистические компании, рассчитывайте стоимость и отслеживайте свои отправления в одном месте</p>
+        <p class="hero-desc">Forge Track — единая платформа для предпринимателей, владельцев интернет-магазинов и обычных пользователей. Мы собрали в одном интерфейсе выбор направления, расчёт стоимости, отслеживание и список документов, которые обычно разбросаны по сайтам Jet Logistic, Казпочты и CDEK.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="#direction">Начать <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-secondary btn-lg" href="#tracking">Отследить посылку</a>
+        </div>
+        <ul class="hero-points">
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Показываем только подтверждённые перевозчиками направления</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Честно отличаем демонстрационный расчёт от опубликованных тарифов</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Ваши данные не отправляются на сторонние серверы</li>
+        </ul>
+      </div>
+      <div class="hero-visual">
+        <svg class="hero-svg" viewBox="0 0 520 420" role="img" aria-label="Схема маршрута: от отправителя к получателю">
+          <defs>
+            <linearGradient id="gHero" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#1257d6"/>
+            </linearGradient>
+          </defs>
+          <circle cx="260" cy="210" r="190" fill="#e0f2fe"/>
+          <circle cx="260" cy="210" r="130" fill="#f0f9ff" stroke="#cfe4f5" stroke-width="2"/>
+          <path class="route-anim" d="M92 306 C 150 110, 310 370, 428 124" fill="none" stroke="url(#gHero)" stroke-width="5" stroke-linecap="round" stroke-dasharray="10 20"/>
+          <g>
+            <circle cx="92" cy="306" r="16" fill="#fff" stroke="#1257d6" stroke-width="4"/>
+            <circle cx="428" cy="124" r="16" fill="#1257d6"/>
+            <circle cx="428" cy="124" r="6" fill="#fff"/>
+          </g>
+          <g transform="translate(212 170)">
+            <rect width="96" height="80" rx="18" fill="#fff" stroke="#cfe4f5" stroke-width="2"/>
+            <path d="M48 18l24 13v26L48 70 24 57V31z" fill="none" stroke="#1257d6" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M24 31l24 13 24-13M48 44v26" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linejoin="round"/>
+          </g>
+          <g font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#0b2a63">
+            <rect x="36" y="330" width="112" height="32" rx="16" fill="#fff" stroke="#cfe4f5"/>
+            <text x="92" y="351" text-anchor="middle">Отправитель</text>
+            <rect x="372" y="78" width="112" height="32" rx="16" fill="#fff" stroke="#cfe4f5"/>
+            <text x="428" y="99" text-anchor="middle">Получатель</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <h2 class="section-title">Всё для международной доставки в одном интерфейсе</h2>
+      <div class="feature-grid">
+        <a class="feature-card" href="#direction">
+          <span class="fc-icon"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg></span>
+          <h3>Выбор направления доставки</h3>
+          <p>Пошагово выберите страну и город. Мы покажем только тех перевозчиков, у которых маршрут подтверждён.</p>
+          <span class="fc-link">Открыть раздел <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+        <a class="feature-card" href="#calculator">
+          <span class="fc-icon"><svg class="icon" aria-hidden="true"><use href="#i-calc"/></svg></span>
+          <h3>Расчёт стоимости доставки</h3>
+          <p>Отдельный калькулятор для каждой компании: вес, габариты, тип груза и предварительная цена.</p>
+          <span class="fc-link">Открыть раздел <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+        <a class="feature-card" href="#tracking">
+          <span class="fc-icon"><svg class="icon" aria-hidden="true"><use href="#i-box"/></svg></span>
+          <h3>Отслеживание посылки</h3>
+          <p>Введите трек-номер, выберите компанию и следите за этапами доставки на понятной шкале.</p>
+          <span class="fc-link">Открыть раздел <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+        <a class="feature-card" href="#documents">
+          <span class="fc-icon"><svg class="icon" aria-hidden="true"><use href="#i-doc"/></svg></span>
+          <h3>Необходимые документы</h3>
+          <p>Чек-лист документов под вашу страну, тип отправителя и вид отправления — с отметками о готовности.</p>
+          <span class="fc-link">Открыть раздел <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <h2 class="section-title">Как это работает</h2>
+      <ol class="how-grid">
+        <li><strong>Выберите маршрут</strong><span>Страна и город отправления, страна и город назначения.</span></li>
+        <li><strong>Сравните компании</strong><span>Система сама проверит, кто из партнёров подтверждает это направление.</span></li>
+        <li><strong>Рассчитайте стоимость</strong><span>Заполните параметры груза в калькуляторе выбранной компании.</span></li>
+        <li><strong>Подготовьтесь и отслеживайте</strong><span>Соберите документы по чек-листу и следите за отправлением по трек-номеру.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <h2 class="section-title">Наши логистические партнёры</h2>
+      <div class="partner-row">
+        <a class="partner-card" href="https://jet.com.kz/" target="_blank" rel="noopener noreferrer">
+          <span class="cc-badge">JL</span><span><strong>Jet Logistic</strong><small>jet.com.kz</small></span>
+        </a>
+        <a class="partner-card" href="https://post.kz/" target="_blank" rel="noopener noreferrer">
+          <span class="cc-badge">KP</span><span><strong>Казпочта</strong><small>post.kz</small></span>
+        </a>
+        <a class="partner-card" href="https://cdek.kz/ru/" target="_blank" rel="noopener noreferrer">
+          <span class="cc-badge">CD</span><span><strong>CDEK</strong><small>cdek.kz</small></span>
+        </a>
+      </div>
+      <div class="notice notice-info" role="note">
+        <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+        <div>
+          <strong>О данных в этой версии (MVP)</strong>
+          <p>Расчёт Казпочты выполняется по опубликованным ею тарифам (редакция 2025 года). Расчёты Jet Logistic и CDEK — <b>демонстрационные</b>: их тарифы нельзя получить без официального API, поэтому используются тестовые коэффициенты. Статусы отслеживания реальных отправлений появятся после подключения серверной части (backend).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="page" id="page-direction" aria-labelledby="dirTitle">
+  <div class="page-head">
+    <div class="container">
+      <h1 id="dirTitle">Выбор направления доставки</h1>
+      <p>Пройдите пять шагов. В конце вы увидите только те компании, для которых выбранное направление подтверждено на их официальных страницах.</p>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="container">
+      <div class="card">
+        <ol class="stepper" id="wizStepper" aria-label="Шаги выбора направления"></ol>
+        <div class="route-chips" id="wizChips"></div>
+        <div class="step-panel" id="wizPanel"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="page-calculator" aria-labelledby="calcTitle">
+  <div class="page-head">
+    <div class="container">
+      <h1 id="calcTitle">Калькулятор доставки</h1>
+      <p>У каждой компании — свой независимый калькулятор. Результат всегда подписан: «Демонстрационный расчёт» или «Ориентировочная стоимость».</p>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="container" id="calcHost"></div>
+  </div>
+</section>
+
+<section class="page" id="page-tracking" aria-labelledby="trackTitle">
+  <div class="page-head">
+    <div class="container">
+      <h1 id="trackTitle">Отслеживание посылки</h1>
+      <p>Выберите компанию и введите трек-номер. Мы не показываем выдуманные статусы: реальные данные появятся после подключения API, а пока можно перейти на официальную страницу перевозчика.</p>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="container">
+      <form class="card" id="trackForm" novalidate>
+        <fieldset>
+          <legend class="legend">Логистическая компания</legend>
+          <div class="radio-grid">
+            <label class="radio-card"><input type="radio" name="trackCarrier" value="jet" checked>
+              <span class="rc-body"><span class="cc-badge">JL</span><span><strong>Jet Logistic</strong><small>jet.com.kz</small></span></span></label>
+            <label class="radio-card"><input type="radio" name="trackCarrier" value="kazpost">
+              <span class="rc-body"><span class="cc-badge">KP</span><span><strong>Казпочта</strong><small>post.kz</small></span></span></label>
+            <label class="radio-card"><input type="radio" name="trackCarrier" value="cdek">
+              <span class="rc-body"><span class="cc-badge">CD</span><span><strong>CDEK</strong><small>cdek.kz</small></span></span></label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="trackNumber">Трек-номер</label>
+          <input id="trackNumber" name="trackNumber" type="text" autocomplete="off" spellcheck="false" placeholder="Введите номер отправления" aria-describedby="trackHint trackErr">
+          <span class="hint" id="trackHint"></span>
+          <span class="error" id="trackErr" role="alert"></span>
+        </div>
+        <div class="inline-actions" style="margin-top:18px">
+          <button class="btn btn-primary" type="submit"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg> Найти посылку</button>
+          <button class="btn btn-ghost" type="button" id="trackDemoBtn">Подставить демо-номер</button>
+          <a class="btn btn-secondary" id="trackOfficial" href="https://jet.com.kz/" target="_blank" rel="noopener noreferrer">Официальная страница отслеживания <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg></a>
+        </div>
+      </form>
+      <div id="trackResult" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="page-documents" aria-labelledby="docTitle">
+  <div class="page-head">
+    <div class="container">
+      <h1 id="docTitle">Необходимые документы</h1>
+      <p>Укажите страны, тип отправителя и вид отправления — мы покажем предварительный чек-лист. Отмечайте готовые документы галочками.</p>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="container">
+      <div class="card">
+        <div class="form-grid" style="margin-bottom:0">
+          <div class="field"><label for="docFrom">Страна отправления</label><select id="docFrom"></select></div>
+          <div class="field"><label for="docTo">Страна назначения</label><select id="docTo"></select></div>
+          <div class="field"><label for="docSender">Тип отправителя</label>
+            <select id="docSender"><option value="individual">Физическое лицо</option><option value="legal">Юридическое лицо</option></select></div>
+          <div class="field"><label for="docKind">Тип отправления</label>
+            <select id="docKind"><option value="personal">Личная посылка</option><option value="commercial">Коммерческий груз</option></select></div>
+        </div>
+      </div>
+      <div class="doc-layout">
+        <div id="docList"></div>
+        <aside class="side-stack" aria-label="Прогресс и официальные требования">
+          <div class="card">
+            <h3>Готовность</h3>
+            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="docProgress"><div class="progress-bar" id="docProgressBar"></div></div>
+            <p class="small muted" id="docProgressText" style="margin:0">Отмечено 0 из 0</p>
+            <div class="side-actions">
+              <button class="btn btn-ghost btn-sm" type="button" id="docReset">Сбросить отметки</button>
+              <button class="btn btn-secondary btn-sm" type="button" id="docPrint">Распечатать список</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Официальные требования перевозчиков</h3>
+            <ul class="link-list">
+              <li><a href="https://jet.com.kz/%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B.html" target="_blank" rel="noopener noreferrer">Jet Logistic — документы <small>Договоры и перечни документов по направлениям, список доплат, перечень не принимаемых грузов</small></a></li>
+              <li><a href="https://qazpost.kz/ru/calculator" target="_blank" rel="noopener noreferrer">Казпочта — виды отправлений <small>В нижней части страницы: «Виды почтовых отправлений» и «Предметы, запрещённые к пересылке»</small></a></li>
+              <li><a href="https://cdek.kz/ru/online-stores/tariffs/" target="_blank" rel="noopener noreferrer">CDEK Казахстан — тарифы и условия <small>Направления, ограничения по весу и видам отправлений</small></a></li>
+              <li><a href="https://kgd.gov.kz/en/node/75758" target="_blank" rel="noopener noreferrer">КГД РК — таможня и почтовые отправления <small>Формы CN 22 / CN 23 для международных почтовых отправлений</small></a></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+      <p class="disclaimer">Перечень документов является предварительным. Окончательные требования зависят от страны, вида груза, статуса отправителя и правил выбранного перевозчика. Перед отправкой уточните требования у компании.</p>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="page-support" aria-labelledby="supTitle">
+  <div class="page-head">
+    <div class="container">
+      <h1 id="supTitle">Техническая поддержка</h1>
+      <p>Вопросы по заказу, тарифам, статусу груза и претензиям решает служба поддержки самой транспортной компании. Выберите нужного перевозчика — откроется его официальный сайт.</p>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="container">
+      <div class="support-grid">
+        <article class="card support-card">
+          <div class="cc-head"><span class="cc-badge">JL</span><div><h2>Jet Logistic</h2><p class="muted small">jet.com.kz</p></div></div>
+          <p>Контакты офисов и складов, call-центр, онлайн-заявка и ответы на частые вопросы — на официальном сайте компании.</p>
+          <div class="cc-actions">
+            <a class="btn btn-primary" href="https://jet.com.kz/%D0%BA%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D1%8B.html" target="_blank" rel="noopener noreferrer">Поддержка Jet Logistic <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg></a>
+            <a class="btn btn-secondary" href="https://jet.com.kz/%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B-%D0%B8-%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D1%8B.html" target="_blank" rel="noopener noreferrer">Вопросы и ответы</a>
+          </div>
+        </article>
+        <article class="card support-card">
+          <div class="cc-head"><span class="cc-badge">KP</span><div><h2>Казпочта</h2><p class="muted small">post.kz</p></div></div>
+          <p>Контакт-центр, чат и раздел «Помощь» находятся на официальном сайте Казпочты. Там же можно найти ближайшее отделение.</p>
+          <div class="cc-actions">
+            <a class="btn btn-primary" href="https://post.kz/" target="_blank" rel="noopener noreferrer">Поддержка Казпочты <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg></a>
+            <a class="btn btn-secondary" href="https://qazpost.kz/ru" target="_blank" rel="noopener noreferrer">Сайт QazPost</a>
+          </div>
+        </article>
+        <article class="card support-card">
+          <div class="cc-head"><span class="cc-badge">CD</span><div><h2>CDEK</h2><p class="muted small">cdek.kz</p></div></div>
+          <p>Контакты, онлайн-чат и справочная информация CDEK Казахстан доступны на официальном сайте компании.</p>
+          <div class="cc-actions">
+            <a class="btn btn-primary" href="https://cdek.kz/ru/" target="_blank" rel="noopener noreferrer">Поддержка CDEK <svg class="icon" aria-hidden="true"><use href="#i-ext"/></svg></a>
+          </div>
+        </article>
+      </div>
+      <div class="notice notice-info" role="note">
+        <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+        <div>
+          <strong>Почему здесь нет телефонов перевозчиков</strong>
+          <p>Контакты компаний меняются, поэтому мы не копируем их на этот сайт и ничего не придумываем: актуальные номера и чаты всегда на официальных страницах. По вопросам работы самого сайта Forge Track — <a href="mailto:k.b.murat09@gmail.com">k.b.murat09@gmail.com</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="#home" aria-label="Forge Track — на главную">
+        <svg class="brand-mark" aria-hidden="true"><use href="#i-brand"/></svg>
+        <span class="brand-name">Forge <span>Track</span></span>
+      </a>
+      <p class="tagline">Упрощаем международную логистику</p>
+      <p>Единая платформа для сравнения перевозчиков, расчёта стоимости, отслеживания посылок и подготовки документов при доставке через Казахстан.</p>
+    </div>
+    <div>
+      <h4>Быстрые ссылки</h4>
+      <ul>
+        <li><a href="#home">Главная</a></li>
+        <li><a href="#direction">Выбор направления</a></li>
+        <li><a href="#calculator">Калькулятор доставки</a></li>
+        <li><a href="#tracking">Отслеживание посылки</a></li>
+        <li><a href="#documents">Необходимые документы</a></li>
+        <li><a href="#support">Техническая поддержка</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Перевозчики</h4>
+      <ul>
+        <li><a href="https://jet.com.kz/" target="_blank" rel="noopener noreferrer">Jet Logistic</a></li>
+        <li><a href="https://post.kz/" target="_blank" rel="noopener noreferrer">Казпочта (Post.kz)</a></li>
+        <li><a href="https://cdek.kz/ru/" target="_blank" rel="noopener noreferrer">CDEK</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Контакты проекта</h4>
+      <ul class="contact-list">
+        <li><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg><a href="tel:+77057143282">+7 705 714 3282</a></li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg><a href="mailto:k.b.murat09@gmail.com">k.b.murat09@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© <span id="footYear">2026</span> Forge Track. Все права защищены.</p>
+    <p>Forge Track не является представителем перевозчиков. Названия компаний принадлежат их владельцам.</p>
+  </div>
+</footer>
+
+<div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
+
+<script>
+'use strict';
+
+const FT_CONFIG = {
+  apiBase: null,                
+  dataCheckedAt: '07.11.2026',   
+  kazpostTariffYear: 2025        
+};
+
+const COUNTRIES = {
+  KZ: { name: 'Казахстан',  cities: ['Шымкент','Алматы','Астана','Караганда','Актобе','Тараз','Павлодар','Усть-Каменогорск','Семей','Атырау','Костанай','Кызылорда','Уральск','Петропавловск','Актау','Кокшетау','Талдыкорган','Туркестан','Жезказган','Экибастуз','Темиртау','Рудный','Конаев'] },
+  UZ: { name: 'Узбекистан', cities: ['Ташкент','Самарканд','Бухара','Андижан','Наманган','Фергана'] },
+  KG: { name: 'Кыргызстан', cities: ['Бишкек','Ош','Джалал-Абад','Каракол','Нарын','Токмок'] },
+  RU: { name: 'Россия',     cities: ['Москва','Санкт-Петербург','Новосибирск','Екатеринбург','Омск','Челябинск','Самара','Казань','Нижний Новгород','Краснодар'] },
+  BY: { name: 'Беларусь',   cities: ['Минск','Брест','Витебск','Гомель','Гродно','Могилёв'] },
+  AM: { name: 'Армения',    cities: ['Ереван','Гюмри','Ванадзор'] },
+  CN: { name: 'Китай',      cities: ['Пекин','Шанхай','Гуанчжоу','Урумчи'] },
+  TR: { name: 'Турция',     cities: ['Стамбул','Анкара','Измир'] },
+  DE: { name: 'Германия',   cities: ['Берлин','Мюнхен','Гамбург','Франкфурт-на-Майне'] },
+  AE: { name: 'ОАЭ',        cities: ['Дубай','Абу-Даби','Шарджа'] }
+};
+const ORIGIN_COUNTRIES = ['KZ','RU','BY','KG','UZ','AM'];                          // откуда можно отправлять
+const DEST_COUNTRIES   = ['KZ','UZ','KG','RU','BY','AM','CN','TR','DE','AE'];      // куда можно отправлять
+const EAEU = ['KZ','RU','BY','KG','AM'];                                           // страны ЕАЭС
+const DEFAULT_FROM_CITY = 'Шымкент';
+
+const CARRIERS = {
+  jet: {
+    id: 'jet', name: 'Jet Logistic', badge: 'JL', host: 'jet.com.kz',
+    site: 'https://jet.com.kz/',
+    calcUrl: 'https://jet.com.kz/',        // экспресс-расчёт — на главной странице сайта
+    trackUrl: 'https://jet.com.kz/',       // кнопка «Проверить груз» на сайте
+    trackTemplate: null                    // шаблон ссылки с {track}; у Jet трек в адрес не передаётся
+  },
+  kazpost: {
+    id: 'kazpost', name: 'Казпочта', badge: 'KP', host: 'post.kz',
+    site: 'https://post.kz/',
+    calcUrl: 'https://qazpost.kz/ru/calculator',
+    trackUrl: 'https://post.kz/',          // поле «Найти посылку» на главной странице
+    trackTemplate: null
+  },
+  cdek: {
+    id: 'cdek', name: 'CDEK', badge: 'CD', host: 'cdek.kz',
+    site: 'https://cdek.kz/ru/',
+    calcUrl: 'https://cdek.kz/ru/',        // калькулятор — на главной странице сайта
+    trackUrl: 'https://cdek.kz/ru/',
+    trackTemplate: null
+  }
+};
+
+const SRC = {
+  jetContacts: { label: 'Jet Logistic — «Контакты, офисы и склады»', url: 'https://jet.com.kz/%D0%BA%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D1%8B.html' },
+  jetDocs:     { label: 'Jet Logistic — «Документы» (перечни по направлениям)', url: 'https://jet.com.kz/%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B.html' },
+  kazpost:     { label: 'Казпочта — тарифы на ускоренную и курьерскую почту, 2025', url: 'https://website-backend.prod.qazpost.kz/uploads/Tarify_na_uslugi_po_peresylke_uskorennoj_i_kurerskoj_pochtovoj_svyazi_na_2025_god_0f08a9320d.pdf' },
+  cdek:        { label: 'СДЭК Казахстан — тарифы и направления', url: 'https://cdek.kz/ru/online-stores/tariffs/' },
+  cdekUz:      { label: 'CDEK Узбекистан — тарифы', url: 'https://cdek-express.uz/ru/online-stores/tariffs/' }
+};
+const JET_KZ = ['Астана','Алматы','Павлодар','Караганда','Усть-Каменогорск','Шымкент','Петропавловск','Тараз','Кызылорда','Экибастуз','Актобе','Уральск','Семей','Кокшетау','Костанай','Атырау','Актау','Талдыкорган','Туркестан','Жезказган'];
+const JET_RU = ['Москва','Омск','Новосибирск','Екатеринбург','Челябинск','Самара','Санкт-Петербург'];
+
+const ROUTES = [];
+function addRoute(carrier, from, to, fromCities, toCities, service, source, note) {
+  ROUTES.push({ carrier: carrier, from: from, to: to, fromCities: fromCities, toCities: toCities,
+                service: service, source: source, note: note || '' });
+}
+
+// ---- Jet Logistic ----
+addRoute('jet','KZ','KZ', JET_KZ, JET_KZ, 'Перевозка между терминалами Jet Logistic в Казахстане', SRC.jetContacts,
+         'Терминалы подтверждены в 20 городах. Забор и доставка до адреса тарифицируются отдельно.');
+addRoute('jet','KZ','RU', JET_KZ, JET_RU, 'Перевозка из Казахстана в Россию', SRC.jetDocs,
+         'На сайте есть отдельный перечень документов «из Казахстана в Россию».');
+addRoute('jet','RU','KZ', JET_RU, JET_KZ, 'Перевозка из России в Казахстан', SRC.jetDocs,
+         'Основное направление компании.');
+addRoute('jet','KZ','KG', JET_KZ, ['Бишкек'], 'Перевозка из Казахстана в Кыргызстан (Бишкек)', SRC.jetDocs,
+         'На сайте есть перечень документов «из России, Казахстана и Беларуси в Кыргызстан». Офис — в Бишкеке.');
+addRoute('jet','RU','KG', JET_RU, ['Бишкек'], 'Перевозка из России в Кыргызстан (Бишкек)', SRC.jetDocs, '');
+addRoute('jet','BY','KG', ['Минск'], ['Бишкек'], 'Перевозка из Беларуси в Кыргызстан (Бишкек)', SRC.jetDocs, '');
+
+// ---- Казпочта (по опубликованному тарифу: «Планета EMS» и внутренние услуги) ----
+addRoute('kazpost','KZ','KZ','*','*','Пересылка по Казахстану (Go post)', SRC.kazpost, 'Тарифы зависят от расстояния между городами.');
+['UZ','KG','RU','BY','AM','TR','DE','CN','AE'].forEach(function (code) {
+  addRoute('kazpost','KZ',code,'*','*','Международная ускоренная почта «Планета EMS»', SRC.kazpost,
+           'Срок по тарифному документу Казпочты: от 3 до 8 дней. Отправление в отдельные страны может быть временно приостановлено — уточняйте в отделении.');
+});
+addRoute('cdek','KZ','KZ','*','*','Экспресс-доставка по Казахстану (курьер, пункты выдачи)', SRC.cdek,
+         'Пункты выдачи подтверждены, в частности, в Астане и Шымкенте — остальные города уточняйте.');
+['RU','BY','KG','AM'].forEach(function (code) {
+  addRoute('cdek','KZ',code,'*','*','Международный экспресс (экспорт из Казахстана)', SRC.cdek, '');
+  addRoute('cdek',code,'KZ','*','*','Международный экспресс (импорт в Казахстан)', SRC.cdek, '');
+});
+addRoute('cdek','KZ','UZ','*','*','Экспресс и документы в Узбекистан', SRC.cdek,
+         'По данным cdek.kz в Узбекистан доступны экспресс-доставка и доставка документов (не «Посылка до 50 кг»).');
+addRoute('cdek','UZ','KZ','*','*','Экспресс из Узбекистана в Казахстан', SRC.cdekUz, '');
+
+const DEMO_RATES = {
+  jet:  { base: 1500, perKg: 130, density: 250, perPlace: 350, bulkyK: 1.2,
+          zone: { domestic: 1, eaeu: 1.9, intl: 2.6 },
+          days: { domestic: [2, 6], eaeu: [5, 12], intl: [10, 25] } },
+  cdek: { base: 900, perKg: 260, divisor: 5000,
+          typeK: { parcel: 1, docs: 0.7, express: 1.5, cargo: 1.25 },
+          zone: { domestic: 1, eaeu: 2.2, intl: 3.2 },
+          days: { domestic: [1, 4], eaeu: [3, 9], intl: [7, 20] } }
+};
+const JET_CARGO = ['Автозапчасти','Аккумуляторы','Бытовая техника','Бытовая химия','Детские товары','Документы (менее 500 г)','Документы (более 500 г)','Запчасти','Игрушки','Инструменты','Книги','Косметика','Крепёж','Лакокрасочные материалы','Мебель','Медтовары','Металлопродукция','Обувь','Одежда','Оборудование','Оргтехника','Посуда','Промышленное оборудование','Сантехника','Стройматериалы','Текстиль','Ткани','ТНП (товары народного потребления)','Упаковка','Хозтовары','Шины'];
+const JET_BULKY = ['Бытовая техника','Мебель','Металлопродукция','Оборудование','Промышленное оборудование','Сантехника','Стройматериалы','Шины'];
+
+const KP = {
+  emsZone: { UZ: 1, KG: 1, RU: 1, BY: 1, AM: 1, TR: 2, DE: 2, CN: 3, AE: 3 },
+  emsRows: [
+    [0.3, 14700, 15000, 15300, 17250, 20490, 31380], [0.5, 15300, 15600, 16200, 19200, 22920, 34305],
+    [1,   16500, 17550, 19125, 23100, 27795, 40155], [1.5, 17700, 19650, 21975, 27000, 32670, 46005],
+    [2,   18900, 22200, 24975, 30900, 37545, 51855], [2.5, 22200, 27600, 27825, 34800, 37920, 57705],
+    [3,   23850, 30300, 30825, 38700, 47295, 63555], [3.5, 25350, 33000, 33675, 42600, 52170, 69405],
+    [4,   26850, 35700, 36675, 46500, 57045, 69255], [4.5, 28350, 38400, 39525, 50400, 61920, 81105],
+    [5,   30000, 41100, 42525, 54300, 66795, 86955], [5.5, 31500, 43800, 45375, 58200, 71670, 92805],
+    [6,   33000, 46500, 48375, 62100, 76545, 98655], [6.5, 34500, 49200, 51225, 66000, 81420, 104505],
+    [7,   36150, 51900, 54225, 69900, 86295, 110355],[7.5, 37650, 54600, 57075, 73800, 91170, 116205],
+    [8,   39150, 57300, 60075, 77700, 96045, 122055],[8.5, 40650, 60000, 62925, 81600, 100920, 127905],
+    [9,   42300, 62700, 65925, 85500, 105795, 133755],[9.5, 43800, 65400, 68775, 89400, 110670, 139605],
+    [10,  45300, 68100, 71775, 93300, 115545, 145455]
+  ],
+  emsExtraKg: [3000, 5400, 5550, 6000, 8850, 9000],     // «+1 кг» свыше 10 кг, по зонам 1..6
+  // Внутренние услуги. Массивы — по 5 тарифным зонам расстояния.
+  domestic: {
+    standard: { name: 'Go post standard (наземный транспорт)', max: 75,
+      packet: [[2300,2400,2500,2600,2700],[2400,2500,2600,2700,2800],[2800,2900,3000,3100,3200]], packetExtra: [210,310,410,510,610],
+      parcel: [3200,3300,3500,3700,3900], parcelExtra: [310,410,510,610,710] },
+    express: { name: 'Go post express (авиа)', max: 30,
+      packet: [[2800,2900,3000,3100,3200],[3000,3100,3200,3300,3400],[3400,3500,3700,3900,4100]], packetExtra: [630,720,820,920,1020],
+      parcel: [4200,4300,4500,4700,5100], parcelExtra: [630,720,820,920,1020] },
+    city: { name: 'Go post city (внутри города)', max: 30,
+      packet: [[1700],[1700],[1900]], packetExtra: [160], parcel: [2300], parcelExtra: [160] }
+  },
+  volumeDivisor: 6000   // объёмный вес = Д × Ш × В (см) / 6000
+};
+// Координаты городов — только чтобы приблизительно оценить расстояние для зоны Go post
+const KZ_COORDS = {
+  'Шымкент':[42.32,69.59],'Алматы':[43.24,76.89],'Астана':[51.17,71.43],'Караганда':[49.80,73.10],'Актобе':[50.28,57.21],
+  'Тараз':[42.90,71.37],'Павлодар':[52.29,76.97],'Усть-Каменогорск':[49.95,82.61],'Семей':[50.41,80.26],'Атырау':[47.11,51.92],
+  'Костанай':[53.21,63.63],'Кызылорда':[44.85,65.51],'Уральск':[51.23,51.37],'Петропавловск':[54.87,69.14],'Актау':[43.65,51.15],
+  'Кокшетау':[53.28,69.38],'Талдыкорган':[45.02,78.37],'Туркестан':[43.30,68.25],'Жезказган':[47.78,67.77],'Экибастуз':[51.73,75.32],
+  'Темиртау':[50.06,72.96],'Рудный':[52.97,63.12],'Конаев':[43.86,77.07]
+};
+
+const STAGES = [
+  'Посылка принята',
+  'Посылка проходит сортировку',
+  'Посылка находится в пути',
+  'Посылка проходит таможенное оформление',
+  'Посылка прибыла в город назначения',
+  'Посылка доставлена получателю'
+];
+
+const TRACK_RULES = {
+  jet:     { test: /^[A-Za-z0-9\-]{5,30}$/, hint: 'Номер накладной (экспедиторской расписки) Jet Logistic. На сайте компании статус груза проверяется кнопкой «Проверить груз» — форма запрашивает номер телефона.' },
+  kazpost: { test: /^([A-Za-z]{2}\d{9}[A-Za-z]{2}|\d{10,20})$/, hint: 'Международный формат из 13 символов, например RR123456789KZ, либо числовой номер из 10–20 цифр.' },
+  cdek:    { test: /^[A-Za-z0-9\-]{6,30}$/, hint: 'Номер заказа / накладной CDEK из СМС, письма или чека (6–30 символов).' }
+};
+
+function $(sel, root) { return (root || document).querySelector(sel); }
+function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, function (ch) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+  });
+}
+function icon(name) { return '<svg class="icon" aria-hidden="true"><use href="#i-' + name + '"/></svg>'; }
+function money(n) { return Math.round(n).toLocaleString('ru-RU') + ' ₸'; }
+function kgText(n) { return (Math.round(n * 100) / 100).toLocaleString('ru-RU') + ' кг'; }
+function extLink(url, text, cls) {
+  return '<a' + (cls ? ' class="' + cls + '"' : '') + ' href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + text + '</a>';
+}
+
+function toast(message, kind) {
+  const wrap = $('#toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast' + (kind ? ' toast-' + kind : '');
+  el.textContent = message;
+  wrap.appendChild(el);
+  setTimeout(function () { el.classList.add('hide'); }, 3800);
+  setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 4200);
+}
+
+function copyText(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return false; });
+  }
+  return new Promise(function (resolve) {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    resolve(ok);
+  });
+}
+
+function routeText(r) {
+  return COUNTRIES[r.from].name + ', ' + r.fromCity + ' → ' + COUNTRIES[r.to].name + ', ' + r.toCity;
+}
+function zoneKind(a, b) {
+  if (a === b) return 'domestic';
+  if (EAEU.indexOf(a) >= 0 && EAEU.indexOf(b) >= 0) return 'eaeu';
+  return 'intl';
+}
+function cityOk(list, city) { return list === '*' || list.indexOf(city) >= 0; }
+
+// Поиск компаний, подтверждающих маршрут. Именно здесь происходит фильтрация.
+function findOffers(from, fromCity, to, toCity) {
+  const seen = {};
+  return ROUTES.filter(function (r) {
+    const ok = r.from === from && r.to === to && cityOk(r.fromCities, fromCity) && cityOk(r.toCities, toCity);
+    if (!ok || seen[r.carrier]) return false;   // одна карточка на компанию
+    seen[r.carrier] = true;
+    return true;
+  });
+}
+const app = {
+  route: null,      // выбранный маршрут {from, fromCity, to, toCity}
+  offers: [],       // подтверждённые предложения для маршрута
+  carrier: null,    // выбранная компания (для калькулятора)
+  calcDirty: true   // нужно ли перестроить калькуляторы
+};
+const PAGE_TITLES = {
+  home: 'Главная', direction: 'Выбор направления', calculator: 'Калькулятор доставки',
+  tracking: 'Отслеживание посылки', documents: 'Необходимые документы', support: 'Техническая поддержка'
+};
+
+function showPage(id) {
+  if (!PAGE_TITLES[id]) id = 'home';
+  $$('.page').forEach(function (p) { p.classList.toggle('active', p.id === 'page-' + id); });
+  $$('.main-nav a').forEach(function (a) {
+    const on = a.getAttribute('data-nav') === id;
+    a.classList.toggle('active', on);
+    if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  });
+  document.title = (id === 'home' ? '' : PAGE_TITLES[id] + ' — ') + 'Forge Track';
+  closeMenu();
+  window.scrollTo(0, 0);
+  if (id === 'direction') renderWizard();
+  if (id === 'calculator') renderCalculator();
+  if (id === 'tracking') updateTrackingUI();
+  if (id === 'documents') renderDocs();
+}
+function go(id) {
+  if (location.hash === '#' + id) showPage(id); else location.hash = id;
+}
+function closeMenu() {
+  $('#mainNav').classList.remove('open');
+  const t = $('#navToggle');
+  t.setAttribute('aria-expanded', 'false');
+  t.setAttribute('aria-label', 'Открыть меню');
+}
+const WIZ_STEPS = ['Страна отправления', 'Город отправления', 'Страна назначения', 'Город назначения', 'Компании'];
+const wiz = {
+  step: 1,                  // текущий шаг
+  max: 1,                   // самый дальний достигнутый шаг
+  fromCountry: 'KZ',        // по умолчанию — Казахстан
+  fromCity: DEFAULT_FROM_CITY, // по умолчанию — Шымкент
+  toCountry: '',
+  toCity: ''
+};
+
+function renderWizard() {
+  $('#wizStepper').innerHTML = WIZ_STEPS.map(function (title, i) {
+    const n = i + 1;
+    const cls = n === wiz.step ? 'current' : (n < wiz.step ? 'done' : '');
+    return '<li class="step-pill ' + cls + '"><button type="button" data-step="' + n + '"' +
+           (n > wiz.max ? ' disabled' : '') + (n === wiz.step ? ' aria-current="step"' : '') + '>' +
+           '<span class="num">' + (n < wiz.step ? '✓' : n) + '</span>' + title + '</button></li>';
+  }).join('');
+  const chips = [];
+  if (wiz.step > 1) chips.push('Откуда: ' + COUNTRIES[wiz.fromCountry].name);
+  if (wiz.step > 2) chips.push('Город отправления: ' + wiz.fromCity);
+  if (wiz.step > 3) chips.push('Куда: ' + COUNTRIES[wiz.toCountry].name);
+  if (wiz.step > 4) chips.push('Город назначения: ' + wiz.toCity);
+  $('#wizChips').innerHTML = chips.map(function (c) { return '<span class="chip">' + esc(c) + '</span>'; }).join('');
+  let html = '';
+  if (wiz.step === 1) html = panelCountry('from');
+  else if (wiz.step === 2) html = panelCity('from');
+  else if (wiz.step === 3) html = panelCountry('to');
+  else if (wiz.step === 4) html = panelCity('to');
+  else html = panelOffers();
+  $('#wizPanel').innerHTML = html;
+}
+
+function panelCountry(side) {
+  const isFrom = side === 'from';
+  const list = isFrom ? ORIGIN_COUNTRIES : DEST_COUNTRIES;
+  const cur = isFrom ? wiz.fromCountry : wiz.toCountry;
+  let h = '<h2>Шаг ' + (isFrom ? 1 : 3) + '. Страна ' + (isFrom ? 'отправления' : 'назначения') + '</h2>';
+  h += '<p class="muted">' + (isFrom ? 'По умолчанию выбран Казахстан.' : 'Выберите страну, куда нужно доставить груз. Список компаний зависит от этого выбора.') + '</p>';
+  h += '<div class="choice-grid" role="group" aria-label="Страна">';
+  list.forEach(function (code) {
+    h += '<button type="button" class="choice" data-pick="' + side + '" data-code="' + code + '" aria-pressed="' + (code === cur) + '">' +
+         '<span class="code">' + code + '</span><span><strong>' + esc(COUNTRIES[code].name) + '</strong><small>' +
+         (EAEU.indexOf(code) >= 0 ? 'Страна ЕАЭС' : 'Вне ЕАЭС') + '</small></span></button>';
+  });
+  h += '</div><p class="form-error" id="wizError" role="alert" hidden></p>';
+  h += '<div class="wizard-actions">' + (isFrom ? '' : '<button type="button" class="btn btn-ghost" data-wiz="back">Назад</button>') +
+       '<button type="button" class="btn btn-primary" data-wiz="next">Далее ' + icon('arrow') + '</button></div>';
+  return h;
+}
+
+function panelCity(side) {
+  const isFrom = side === 'from';
+  const code = isFrom ? wiz.fromCountry : wiz.toCountry;
+  const cur = isFrom ? wiz.fromCity : wiz.toCity;
+  let h = '<h2>Шаг ' + (isFrom ? 2 : 4) + '. Город ' + (isFrom ? 'отправления' : 'назначения') + '</h2>';
+  h += '<p class="muted">' + (isFrom ? 'По умолчанию выбран Шымкент.' : 'Список городов зависит от выбранной страны: ' + esc(COUNTRIES[code].name) + '.') + '</p>';
+  h += '<div class="field"><label for="wizCity">Город</label><select id="wizCity" data-side="' + side + '">';
+  if (!cur) h += '<option value="">— выберите город —</option>';
+  COUNTRIES[code].cities.forEach(function (c) {
+    h += '<option value="' + esc(c) + '"' + (c === cur ? ' selected' : '') + '>' + esc(c) + '</option>';
+  });
+  h += '</select></div><p class="form-error" id="wizError" role="alert" hidden></p>';
+  h += '<div class="wizard-actions"><button type="button" class="btn btn-ghost" data-wiz="back">Назад</button>' +
+       '<button type="button" class="btn btn-primary" data-wiz="next">' + (isFrom ? 'Далее ' : 'Найти компании ') + icon('arrow') + '</button></div>';
+  return h;
+}
+
+function coverageText(o) {
+  if (o.fromCities === '*' && o.toCities === '*') return 'Любые города направления. Доставку до конкретного адреса уточняйте у перевозчика.';
+  return 'Подтверждены пункты: ' + esc(app.route.fromCity) + ' и ' + esc(app.route.toCity) + '.';
+}
+
+function panelOffers() {
+  const n = app.offers.length;
+  let h = '<h2>Шаг 5. Доступные логистические компании</h2>';
+  h += '<p class="muted">Маршрут: <strong>' + esc(routeText(app.route)) + '</strong>. Показаны только компании, для которых это направление подтверждено.</p>';
+  if (!n) {
+    h += '<div class="empty-state">' + icon('info') +
+         '<h3>Нет подтверждённых предложений</h3>' +
+         '<p>К сожалению, для выбранного направления пока нет подтверждённых предложений от наших партнёров.</p>' +
+         '<p class="small">Попробуйте другой город или страну. Возможно, перевозчик работает на этом направлении, но мы не нашли подтверждения на его официальных страницах.</p></div>';
+  } else {
+    h += '<p><span class="pill pill-ok">' + icon('check') + ' Найдено подтверждённых предложений: ' + n + '</span></p>';
+    h += '<div class="offers-grid">';
+    app.offers.forEach(function (o) {
+      const c = CARRIERS[o.carrier];
+      h += '<article class="carrier-card">' +
+           '<div class="cc-head"><span class="cc-badge">' + c.badge + '</span><div><h3>' + c.name + '</h3><p class="muted small">' + c.host + '</p></div>' +
+           '<span class="pill pill-ok">' + icon('check') + ' Подтверждено</span></div>' +
+           '<dl class="cc-facts">' +
+           '<dt>Что подтверждено</dt><dd>' + esc(o.service) + '</dd>' +
+           '<dt>Покрытие по городам</dt><dd>' + coverageText(o) + '</dd>' +
+           (o.note ? '<dt>Важно</dt><dd>' + esc(o.note) + '</dd>' : '') +
+           '<dt>Источник</dt><dd>' + extLink(o.source.url, esc(o.source.label)) + '<br>Сверено: ' + FT_CONFIG.dataCheckedAt + '</dd></dl>' +
+           '<div class="cc-actions"><button type="button" class="btn btn-primary btn-sm" data-calc="' + c.id + '">Рассчитать стоимость</button>' +
+           extLink(c.site, 'Официальный сайт ' + icon('ext'), 'btn btn-secondary btn-sm') + '</div></article>';
+    });
+    h += '</div>';
+  }
+  h += '<div class="wizard-end"><button type="button" class="btn btn-ghost" data-wiz="reset">' + icon('edit') + ' Изменить направление</button></div>';
+  return h;
+}
+
+function wizError(msg) {
+  const e = $('#wizError');
+  if (!e) return;
+  e.textContent = msg; e.hidden = !msg;
+}
+
+function wizNext() {
+  if (wiz.step === 3 && !wiz.toCountry) { wizError('Выберите страну назначения.'); return; }
+  if (wiz.step === 4 && !wiz.toCity) { wizError('Выберите город назначения.'); return; }
+  if (wiz.step === 4) {
+    app.route = { from: wiz.fromCountry, fromCity: wiz.fromCity, to: wiz.toCountry, toCity: wiz.toCity };
+    app.offers = findOffers(app.route.from, app.route.fromCity, app.route.to, app.route.toCity);
+    app.carrier = app.offers.length ? app.offers[0].carrier : null;
+    app.calcDirty = true;
+  }
+  wiz.step = Math.min(5, wiz.step + 1);
+  wiz.max = Math.max(wiz.max, wiz.step);
+  renderWizard();
+  window.scrollTo({ top: 0 });
+}
+
+function onWizardClick(e) {
+  const pick = e.target.closest('[data-pick]');
+  if (pick) {
+    const side = pick.getAttribute('data-pick'), code = pick.getAttribute('data-code');
+    if (side === 'from' && wiz.fromCountry !== code) {
+      wiz.fromCountry = code;
+      wiz.fromCity = code === 'KZ' ? DEFAULT_FROM_CITY : COUNTRIES[code].cities[0];
+      wiz.max = wiz.step;
+    }
+    if (side === 'to' && wiz.toCountry !== code) { wiz.toCountry = code; wiz.toCity = ''; wiz.max = wiz.step; }
+    renderWizard();
+    return;
+  }
+  const stepBtn = e.target.closest('[data-step]');
+  if (stepBtn && !stepBtn.disabled) { wiz.step = Number(stepBtn.getAttribute('data-step')); renderWizard(); return; }
+  const act = e.target.closest('[data-wiz]');
+  if (act) {
+    const a = act.getAttribute('data-wiz');
+    if (a === 'next') wizNext();
+    if (a === 'back') { wiz.step = Math.max(1, wiz.step - 1); renderWizard(); }
+    if (a === 'reset') { wiz.step = 1; wiz.max = 1; wiz.toCountry = ''; wiz.toCity = ''; renderWizard(); }
+    return;
+  }
+  const calc = e.target.closest('[data-calc]');
+  if (calc) { app.carrier = calc.getAttribute('data-calc'); go('calculator'); }
+}
+
+function onWizardChange(e) {
+  if (e.target.id !== 'wizCity') return;
+  if (e.target.getAttribute('data-side') === 'from') wiz.fromCity = e.target.value; else wiz.toCity = e.target.value;
+  wiz.max = wiz.step;
+  wizError('');
+}
+function emptyCalc(title, text) {
+  return '<div class="card empty-state">' + icon('route') + '<h2>' + title + '</h2><p>' + text + '</p>' +
+         '<button type="button" class="btn btn-primary" data-go="direction">Выбрать направление</button></div>';
+}
+
+function renderCalculator() {
+  const host = $('#calcHost');
+  if (!app.route) {
+    host.innerHTML = emptyCalc('Сначала выберите направление', 'Калькулятор подбирается под выбранную транспортную компанию, поэтому сначала нужно пройти шаги выбора маршрута.');
+    host.removeAttribute('data-built'); return;
+  }
+  if (!app.offers.length) {
+    host.innerHTML = emptyCalc('Нет подтверждённых предложений', 'К сожалению, для выбранного направления (' + esc(routeText(app.route)) + ') пока нет подтверждённых предложений от наших партнёров.');
+    host.removeAttribute('data-built'); return;
+  }
+  if (app.calcDirty || !host.getAttribute('data-built')) {
+    let h = '<div class="route-banner"><div><span class="small">Маршрут</span><br><strong>' + esc(routeText(app.route)) + '</strong></div>' +
+            '<button type="button" class="btn btn-ghost btn-sm" data-go="direction">' + icon('edit') + ' Изменить направление</button></div>';
+    h += '<div class="tabs" role="tablist" aria-label="Транспортные компании">';
+    app.offers.forEach(function (o) {
+      const c = CARRIERS[o.carrier];
+      h += '<button type="button" class="tab" role="tab" id="tab-' + c.id + '" data-tab="' + c.id + '" aria-selected="false" aria-controls="panel-' + c.id + '">' +
+           '<span class="cc-badge">' + c.badge + '</span>' + c.name + '</button>';
+    });
+    h += '</div>';
+    app.offers.forEach(function (o) {
+      h += '<div role="tabpanel" id="panel-' + o.carrier + '" aria-labelledby="tab-' + o.carrier + '" hidden>' + buildForm(o.carrier) + '</div>';
+    });
+    host.innerHTML = h;
+    host.setAttribute('data-built', '1');
+    app.calcDirty = false;
+  }
+  let active = app.carrier;
+  if (!app.offers.some(function (o) { return o.carrier === active; })) active = app.offers[0].carrier;
+  selectTab(active);
+}
+
+function selectTab(id) {
+  app.carrier = id;
+  $$('#calcHost [role="tab"]').forEach(function (t) { t.setAttribute('aria-selected', String(t.getAttribute('data-tab') === id)); });
+  $$('#calcHost [role="tabpanel"]').forEach(function (p) { p.hidden = p.id !== 'panel-' + id; });
+}
+
+/* ---- 5.2 Мелкие «кирпичики» форм ---- */
+function fReadonly(label, value) {
+  return '<div class="field"><label>' + label + '</label><input type="text" value="' + esc(value) + '" readonly tabindex="-1"></div>';
+}
+function fSelect(prefix, name, label, options) {
+  let h = '<div class="field"><label for="' + prefix + '-' + name + '">' + label + '</label>' +
+          '<select id="' + prefix + '-' + name + '" data-f="' + name + '"><option value="">— выберите —</option>';
+  options.forEach(function (o) {
+    const val = typeof o === 'string' ? o : o[0], text = typeof o === 'string' ? o : o[1];
+    h += '<option value="' + esc(val) + '">' + esc(text) + '</option>';
+  });
+  return h + '</select><span class="error" data-err="' + name + '" role="alert"></span></div>';
+}
+function fNumber(prefix, name, label, placeholder, hint) {
+  return '<div class="field"><label for="' + prefix + '-' + name + '">' + label + '</label>' +
+         '<input id="' + prefix + '-' + name + '" data-f="' + name + '" type="number" inputmode="decimal" min="0" step="any" placeholder="' + esc(placeholder) + '">' +
+         (hint ? '<span class="hint">' + hint + '</span>' : '') +
+         '<span class="error" data-err="' + name + '" role="alert"></span></div>';
+}
+function formTail(prefix) {
+  return '<div class="inline-actions"><button class="btn btn-primary" type="submit">' + icon('calc') + ' Рассчитать стоимость</button>' +
+         '<button class="btn btn-ghost" type="reset">Очистить</button></div>' +
+         '<p class="form-error" data-formerr hidden></p>' +
+         '<div class="result" id="' + prefix + '-result" aria-live="polite"></div>';
+}
+
+/* ---- 5.3 Формы трёх компаний (каждая — независимая) ---- */
+function buildForm(id) {
+  const r = app.route;
+  if (id === 'jet') {
+    return '<form class="card calc-form" data-carrier="jet" novalidate>' +
+      '<h2><span class="cc-badge">JL</span> Калькулятор Jet Logistic</h2><div class="form-grid">' +
+      fReadonly('Город отправления', r.fromCity) + fReadonly('Город назначения', r.toCity) +
+      fSelect('jet', 'cargo', 'Тип груза', JET_CARGO) +
+      fNumber('jet', 'places', 'Количество грузовых мест', '1') +
+      fNumber('jet', 'weight', 'Вес груза, кг', 'например, 120', 'Не более 5000 кг') +
+      fNumber('jet', 'volume', 'Объём груза, м³', 'например, 0.8', 'Не более 20 м³') +
+      '</div>' + formTail('jet') + '</form>';
+  }
+  if (id === 'kazpost') {
+    return '<form class="card calc-form" data-carrier="kazpost" novalidate>' +
+      '<h2><span class="cc-badge">KP</span> Калькулятор Казпочты</h2><div class="form-grid">' +
+      fReadonly('Страна отправления', COUNTRIES[r.from].name) + fReadonly('Город отправления', r.fromCity) +
+      fReadonly('Страна назначения', COUNTRIES[r.to].name) + fReadonly('Город назначения', r.toCity) +
+      fSelect('kp', 'type', 'Тип отправления', [['doc', 'Документ'], ['parcel', 'Посылка'], ['big', 'Крупногабаритная посылка'], ['doc_ems', 'Документ экспресс (EMS)'], ['parcel_ems', 'Посылка экспресс (EMS)']]) +
+      fNumber('kp', 'weight', 'Вес посылки, кг', 'например, 2.5') +
+      '</div><div class="form-grid cols-3">' +
+      fNumber('kp', 'length', 'Длина, см', '30') + fNumber('kp', 'width', 'Ширина, см', '20') + fNumber('kp', 'height', 'Высота, см', '10') +
+      '</div>' + formTail('kp') + '</form>';
+  }
+  const uz = r.from === 'UZ' || r.to === 'UZ';
+  const types = uz ? [['express', 'Экспресс-доставка'], ['docs', 'Документы (до 5 кг)']]
+                   : [['parcel', 'Посылка (до 50 кг)'], ['docs', 'Документы (до 5 кг)'], ['express', 'Экспресс-доставка'], ['cargo', 'Груз / коммерческая партия']];
+  return '<form class="card calc-form" data-carrier="cdek" novalidate>' +
+    '<h2><span class="cc-badge">CD</span> Калькулятор CDEK</h2><div class="form-grid">' +
+    fReadonly('Город отправления', r.fromCity) + fReadonly('Город назначения', r.toCity) +
+    fSelect('cd', 'type', 'Тип отправления', types) +
+    fNumber('cd', 'weight', 'Вес, кг', 'например, 3') +
+    '</div><div class="form-grid cols-3">' +
+    fNumber('cd', 'length', 'Длина, см', '30') + fNumber('cd', 'width', 'Ширина, см', '20') + fNumber('cd', 'height', 'Высота, см', '10') +
+    '</div>' + formTail('cd') + '</form>';
+}
+
+function setErr(form, name, msg) {
+  const el = form.querySelector('[data-f="' + name + '"]');
+  const er = form.querySelector('[data-err="' + name + '"]');
+  if (el) { el.classList.toggle('invalid', !!msg); el.setAttribute('aria-invalid', msg ? 'true' : 'false'); }
+  if (er) er.textContent = msg || '';
+  return !msg;
+}
+function numField(form, name, label, min, max, unit, isInt) {
+  const el = form.querySelector('[data-f="' + name + '"]');
+  const raw = String(el.value || '').trim().replace(',', '.');
+  const v = raw === '' ? NaN : Number(raw);
+  if (!isFinite(v)) { setErr(form, name, 'Укажите ' + label + '.'); return null; }
+  if (v < min) { setErr(form, name, 'Значение не может быть меньше ' + min + (unit ? ' ' + unit : '') + '.'); return null; }
+  if (max !== undefined && v > max) { setErr(form, name, 'Значение не может быть больше ' + max + (unit ? ' ' + unit : '') + '.'); return null; }
+  if (isInt && Math.floor(v) !== v) { setErr(form, name, 'Укажите целое число.'); return null; }
+  setErr(form, name, ''); return v;
+}
+function selField(form, name, label) {
+  const el = form.querySelector('[data-f="' + name + '"]');
+  if (!el.value) { setErr(form, name, 'Выберите ' + label + '.'); return null; }
+  setErr(form, name, ''); return el.value;
+}
+/* ---- 5.5 Расчёт Jet Logistic (ДЕМОНСТРАЦИОННЫЙ) ---- */
+function calcJet(form, r) {
+  const cargo  = selField(form, 'cargo', 'тип груза');
+  const places = numField(form, 'places', 'количество грузовых мест', 1, 999, '', true);
+  const weight = numField(form, 'weight', 'вес груза', 0.01, 5000, 'кг');
+  const volume = numField(form, 'volume', 'объём груза', 0.001, 20, 'м³');
+  if ([cargo, places, weight, volume].indexOf(null) >= 0) return null;
+
+  const k = DEMO_RATES.jet, kind = zoneKind(r.from, r.to);
+  const chargeKg = Math.max(weight, volume * k.density);
+  const bulky = JET_BULKY.indexOf(cargo) >= 0;
+  const freight = chargeKg * k.perKg * k.zone[kind];
+  const sub = k.base + freight + places * k.perPlace;
+  const total = Math.round(sub * (bulky ? k.bulkyK : 1) / 10) * 10;
+  const d = k.days[kind];
+
+  return {
+    kind: 'demo', price: total, time: d[0] + '–' + d[1] + ' рабочих дней (демо-значение)',
+    rows: [
+      ['Расчётный вес (больший из фактического и объёмного)', kgText(chargeKg)],
+      ['Базовая ставка (тест)', money(k.base)],
+      ['Перевозка (тест, коэффициент направления ×' + k.zone[kind] + ')', money(freight)],
+      ['Грузовые места: ' + places + ' шт. (тест)', money(places * k.perPlace)],
+      ['Коэффициент типа груза' + (bulky ? ' (габаритный груз)' : ''), '×' + (bulky ? k.bulkyK : 1)]
+    ],
+    notes: [
+      'Это тестовый алгоритм: тарифы Jet Logistic недоступны в виде, пригодном для автоматического расчёта, поэтому цифры не являются ценой перевозчика.',
+      'Возможные дополнительные расходы: забор груза и доставка до адреса, жёсткая упаковка для ряда грузов, доплаты по списку Jet Logistic. Актуальные условия — на странице ' + extLink(SRC.jetDocs.url, '«Документы» Jet Logistic') + ' (прайс-листы, «Список доплат»).',
+      'Точный срок и стоимость покажет официальный экспресс-расчёт на сайте Jet Logistic.'
+    ]
+  };
+}
+
+/* ---- 5.6 Расчёт Казпочты (по опубликованным тарифам 2025) ---- */
+function haversineKm(a, b) {
+  const R = 6371, rad = Math.PI / 180;
+  const dLat = (b[0] - a[0]) * rad, dLon = (b[1] - a[1]) * rad;
+  const x = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a[0] * rad) * Math.cos(b[0] * rad) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  return 2 * R * Math.asin(Math.sqrt(x));
+}
+function pickZone(arr, z) { return arr[Math.min(z, arr.length - 1)]; }
+function kpDomesticPrice(t, packetKind, w, z) {
+  if (packetKind) {   // «пакет» (документы): до 0,3 / 0,5 / 1 кг, далее +1 кг
+    if (w <= 0.3) return { base: pickZone(t.packet[0], z), extra: 0, k: 0 };
+    if (w <= 0.5) return { base: pickZone(t.packet[1], z), extra: 0, k: 0 };
+    if (w <= 1)   return { base: pickZone(t.packet[2], z), extra: 0, k: 0 };
+    const k = Math.ceil(w - 1);
+    return { base: pickZone(t.packet[2], z), extra: k * pickZone(t.packetExtra, z), k: k };
+  }
+  if (w <= 2) return { base: pickZone(t.parcel, z), extra: 0, k: 0 };   // «посылка»: до 2 кг, далее +1 кг
+  const k2 = Math.ceil(w - 2);
+  return { base: pickZone(t.parcel, z), extra: k2 * pickZone(t.parcelExtra, z), k: k2 };
+}
+
+function calcKazpost(form, r) {
+  const type = selField(form, 'type', 'тип отправления');
+  const w  = numField(form, 'weight', 'вес посылки', 0.01, 1000, 'кг');
+  const L  = numField(form, 'length', 'длину', 1, 300, 'см');
+  const Wd = numField(form, 'width', 'ширину', 1, 300, 'см');
+  const H  = numField(form, 'height', 'высоту', 1, 300, 'см');
+  if ([type, w, L, Wd, H].indexOf(null) >= 0) return null;
+
+  const vol = L * Wd * H / KP.volumeDivisor;
+  const charge = Math.max(w, vol);
+  const baseRows = [
+    ['Фактический вес', kgText(w)],
+    ['Объёмный вес (Д×Ш×В / ' + KP.volumeDivisor + ')', kgText(vol)],
+    ['Расчётный вес', kgText(charge)]
+  ];
+  const official = 'Для точной цены используйте ' + extLink(CARRIERS.kazpost.calcUrl, 'официальный калькулятор Казпочты') + '.';
+  const yearNote = 'Расчёт по опубликованным тарифам Казпочты (редакция ' + FT_CONFIG.kazpostTariffYear + ' года, с НДС, без дополнительных услуг). Актуальность на текущий год проверьте в официальном калькуляторе.';
+  const isEms = /_ems$/.test(type), packetKind = /^doc/.test(type);
+
+  if (type === 'big') {
+    return { kind: 'info', title: 'Крупногабаритные посылки', rows: baseRows,
+      text: 'Для крупногабаритных посылок в использованном тарифном документе нет значений для автоматического расчёта.', notes: [official] };
+  }
+
+  // --- внутри Казахстана ---
+  if (r.from === 'KZ' && r.to === 'KZ') {
+    let svc, zone = 0, km = 0, zoneNote = '';
+    if (r.fromCity === r.toCity) { svc = KP.domestic.city; zoneNote = 'Отправление внутри города.'; }
+    else {
+      svc = isEms ? KP.domestic.express : KP.domestic.standard;
+      km = Math.round(haversineKm(KZ_COORDS[r.fromCity], KZ_COORDS[r.toCity]) * 1.2);
+      zone = km <= 500 ? 0 : km <= 1000 ? 1 : km <= 2000 ? 2 : km <= 3000 ? 3 : 4;
+      zoneNote = 'Расстояние оценено приблизительно (~' + km + ' км по координатам городов с запасом на дорогу), тарифная зона ' + (zone + 1) + ' из 5 — реальная зона может отличаться.';
+    }
+    if (w > svc.max) {
+      return { kind: 'info', title: 'Превышен максимальный вес услуги', rows: baseRows,
+        text: 'Для услуги «' + svc.name + '» максимальный вес отправления — ' + svc.max + ' кг.', notes: [official] };
+    }
+    const p = kpDomesticPrice(svc, packetKind, charge, zone);
+    const rows = baseRows.concat([['Услуга', svc.name], [packetKind ? 'Тариф «пакет»' : 'Тариф «посылка»', money(p.base)]]);
+    if (p.k) rows.push(['Свыше базового веса: ' + p.k + ' кг', money(p.extra)]);
+    return { kind: 'tariff', price: p.base + p.extra, rows: rows,
+      time: 'нет достоверных данных в опубликованном тарифе — уточните в официальном калькуляторе',
+      notes: [yearNote, zoneNote, 'Если объёмный вес больше фактического, тариф определяется по объёмному весу.'] };
+  }
+
+  // --- из Казахстана за рубеж: «Планета EMS» ---
+  if (r.from === 'KZ') {
+    if (!isEms) {
+      return { kind: 'info', title: 'Обычная международная почта', rows: baseRows,
+        text: 'В использованном тарифном документе опубликован тариф на международные отправления EMS. Для обычных писем и посылок выберите тип «экспресс (EMS)» либо воспользуйтесь официальным калькулятором.', notes: [official] };
+    }
+    const zone = KP.emsZone[r.to];
+    if (!zone) {
+      return { kind: 'info', title: 'Страна не найдена в тарифных зонах', rows: baseRows, text: 'Для этой страны нет значения тарифной зоны.', notes: [official] };
+    }
+    if (w > 30) {
+      return { kind: 'info', title: 'Вес больше 30 кг', rows: baseRows,
+        text: 'Для мест тяжелее 30 кг действуют особые условия (при превышении габаритов применяется повышающий коэффициент 1,25). Уточните стоимость у Казпочты.', notes: [official] };
+    }
+    const rows = KP.emsRows, last = rows[rows.length - 1];
+    let base, extra = 0, k = 0;
+    if (charge <= 10) { base = rows.filter(function (x) { return charge <= x[0]; })[0][zone]; }
+    else { base = last[zone]; k = Math.ceil(charge - 10); extra = k * KP.emsExtraKg[zone - 1]; }
+    const out = baseRows.concat([['Услуга', 'Планета EMS, зона ' + zone], ['Тариф за вес', money(base)]]);
+    if (k) out.push(['Свыше 10 кг: ' + k + ' кг', money(extra)]);
+    return { kind: 'tariff', price: base + extra, rows: out,
+      time: '3–8 дней (по тарифному документу Казпочты)',
+      notes: [yearNote, 'Таможенное оформление и ограничения страны назначения учитываются отдельно. Отправление в некоторые страны может быть временно приостановлено — уточняйте в отделении.'] };
+  }
+
+  return { kind: 'info', title: 'Расчёт недоступен', rows: baseRows, text: 'Для этого направления автоматический расчёт не реализован.', notes: [official] };
+}
+
+/* ---- 5.7 Расчёт CDEK (ДЕМОНСТРАЦИОННЫЙ) ---- */
+function calcCdek(form, r) {
+  const type = selField(form, 'type', 'тип отправления');
+  const w  = numField(form, 'weight', 'вес', 0.01, 500, 'кг');
+  const L  = numField(form, 'length', 'длину', 1, 300, 'см');
+  const Wd = numField(form, 'width', 'ширину', 1, 300, 'см');
+  const H  = numField(form, 'height', 'высоту', 1, 300, 'см');
+  if ([type, w, L, Wd, H].indexOf(null) >= 0) return null;
+  // Ограничения по данным cdek.kz: «Посылка» — до 50 кг, «Документы» — до 5 кг
+  if (type === 'docs' && w > 5)   { setErr(form, 'weight', 'Для документов вес не более 5 кг.'); return null; }
+  if (type === 'parcel' && w > 50) { setErr(form, 'weight', 'Для посылки вес не более 50 кг.'); return null; }
+
+  const k = DEMO_RATES.cdek, kind = zoneKind(r.from, r.to);
+  const vol = L * Wd * H / k.divisor;
+  const charge = Math.max(w, vol);
+  const freight = charge * k.perKg * k.zone[kind];
+  const total = Math.round((k.base + freight) * k.typeK[type] / 10) * 10;
+  const d = k.days[kind];
+  return {
+    kind: 'demo', price: total, time: d[0] + '–' + d[1] + ' дней (демо-значение)',
+    rows: [
+      ['Фактический вес', kgText(w)],
+      ['Объёмный вес (Д×Ш×В / ' + k.divisor + ', тест)', kgText(vol)],
+      ['Расчётный вес', kgText(charge)],
+      ['Базовая ставка (тест)', money(k.base)],
+      ['Перевозка (тест, коэффициент направления ×' + k.zone[kind] + ')', money(freight)],
+      ['Коэффициент типа отправления (тест)', '×' + k.typeK[type]]
+    ],
+    notes: [
+      'Это тестовый алгоритм: реальные цены CDEK зависят от тарифа, пунктов и услуг, а получить их можно только на официальном сайте или через API CDEK (ключи API хранятся на сервере).',
+      'Ограничения из тарифов cdek.kz: «Посылка» — до 50 кг, «Документы» — до 5 кг.',
+      'Точный срок и цену покажет ' + extLink(CARRIERS.cdek.calcUrl, 'официальный калькулятор CDEK') + '.'
+    ]
+  };
+}
+
+const BADGES = {
+  demo:   ['badge-demo', 'Демонстрационный расчёт'],
+  tariff: ['badge-info', 'Ориентировочная стоимость'],
+  info:   ['badge-info', 'Нужен официальный расчёт']
+};
+function renderResult(box, res, carrierId) {
+  const c = CARRIERS[carrierId], b = BADGES[res.kind];
+  let h = '<div class="result-head"><span class="badge ' + b[0] + '">' + b[1] + '</span></div>';
+  if (res.kind === 'info') {
+    h += '<h3>' + esc(res.title) + '</h3><p>' + res.text + '</p>';
+  } else {
+    h += '<div class="result-price">≈ ' + money(res.price) + '</div>';
+    h += '<p class="result-sub">Ориентировочный срок: ' + res.time + '</p>';
+  }
+  if (res.rows && res.rows.length) {
+    h += '<table class="breakdown"><tbody>' + res.rows.map(function (x) {
+      return '<tr><th scope="row">' + x[0] + '</th><td>' + x[1] + '</td></tr>';
+    }).join('') + '</tbody></table>';
+  }
+  if (res.notes && res.notes.length) {
+    h += '<ul class="notes">' + res.notes.map(function (n) { return '<li>' + n + '</li>'; }).join('') + '</ul>';
+  }
+  h += '<div class="result-actions">' + extLink(c.calcUrl, 'Официальный калькулятор ' + c.name + ' ' + icon('ext'), 'btn btn-primary') +
+       extLink(c.site, 'Официальный сайт', 'btn btn-secondary') + '</div>';
+  h += '<p class="disclaimer">Итоговая стоимость может отличаться от предварительного расчёта. Уточняйте условия у выбранной транспортной компании.</p>';
+  box.innerHTML = h;
+}
+
+function onCalcSubmit(e) {
+  const form = e.target.closest('form[data-carrier]');
+  if (!form) return;
+  e.preventDefault();
+  const id = form.getAttribute('data-carrier');
+  const fn = { jet: calcJet, kazpost: calcKazpost, cdek: calcCdek }[id];
+  const box = form.querySelector('.result'), fe = form.querySelector('[data-formerr]');
+  const res = fn(form, app.route);
+  if (!res) {
+    box.innerHTML = '';
+    fe.textContent = 'Проверьте выделенные поля: в них не хватает данных или значения вне допустимых пределов.';
+    fe.hidden = false;
+    const bad = form.querySelector('.invalid'); if (bad) bad.focus();
+    toast('Исправьте ошибки в форме', 'error');
+    return;
+  }
+  fe.hidden = true;
+  renderResult(box, res, id);
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function onCalcReset(e) {
+  const form = e.target.closest('form[data-carrier]');
+  if (!form) return;
+  form.querySelector('.result').innerHTML = '';
+  form.querySelector('[data-formerr]').hidden = true;
+  $$('.invalid', form).forEach(function (el) { el.classList.remove('invalid'); });
+  $$('[data-err]', form).forEach(function (el) { el.textContent = ''; });
+}
+function selectedTrackCarrier() { return $('input[name="trackCarrier"]:checked').value; }
+
+function updateTrackingUI() {
+  const id = selectedTrackCarrier(), c = CARRIERS[id];
+  $('#trackHint').textContent = TRACK_RULES[id].hint + ' Для проверки интерфейса введите демо-номер, например DEMO-3.';
+  const a = $('#trackOfficial');
+  a.href = c.trackUrl;
+  a.innerHTML = 'Официальная страница ' + esc(c.name) + ' ' + icon('ext');
+}
+function officialTrackUrl(id, track) {
+  const c = CARRIERS[id];
+  return c.trackTemplate ? c.trackTemplate.replace('{track}', encodeURIComponent(track)) : c.trackUrl;
+}
+function fetchTracking(carrier, track) {
+  if (!FT_CONFIG.apiBase) {
+    const err = new Error('API не подключён'); err.code = 'NO_API';
+    return Promise.reject(err);
+  }
+  return fetch(FT_CONFIG.apiBase.replace(/\/$/, '') + '/tracking/' + carrier + '/' + encodeURIComponent(track),
+               { headers: { Accept: 'application/json' } })
+    .then(function (resp) {
+      if (resp.status === 404) { const e = new Error('not found'); e.code = 'NOT_FOUND'; throw e; }
+      if (!resp.ok) { const e2 = new Error('HTTP ' + resp.status); e2.code = 'API_ERROR'; throw e2; }
+      return resp.json();
+    })
+    .catch(function (err) {
+      if (!err.code) err.code = 'NETWORK';
+      throw err;
+    });
+}
+function demoTracking(carrier, track, stage) {
+  const places = ['Пункт приёма', 'Сортировочный центр', 'В пути между городами', 'Таможенный пост', 'Город назначения', 'Вручено получателю'];
+  const stages = []; for (let i = 1; i <= stage; i++) stages.push(i);
+  return { track: track, carrier: carrier, sentAt: '01.11.2026 (демо)', status: STAGES[stage - 1] + ' (демо)',
+           location: places[stage - 1] + ' (демо)', updatedAt: '05.11.2026, 12:00 (демо)', stages: stages };
+}
+
+function fmtDate(v) {
+  if (!v) return 'нет данных';
+  const d = new Date(v);
+  return isNaN(d.getTime()) ? String(v) : d.toLocaleString('ru-RU');
+}
+function fact(label, value) { return '<div><span>' + label + '</span><strong>' + esc(value || 'нет данных') + '</strong></div>'; }
+
+function timelineHtml(confirmed, demo) {
+  const last = confirmed.length ? Math.max.apply(null, confirmed) : 0;
+  return '<ol class="timeline" aria-label="Этапы доставки">' + STAGES.map(function (title, i) {
+    const n = i + 1, done = confirmed.indexOf(n) >= 0;
+    const cls = 'tl-step' + (done ? ' done' : '') + (n === last ? ' current' : '') + (done && confirmed.indexOf(n + 1) >= 0 ? ' link-done' : '');
+    let note = '';
+    if (n === 4) note = 'если применимо';
+    if (done && demo) note = (note ? note + ' · ' : '') + 'ДЕМО';
+    if (!done && !note) note = 'нет подтверждения';
+    return '<li class="' + cls + '"><span class="tl-dot">' + (done ? '✓' : n) + '</span><span class="tl-title">' + title +
+           '</span><span class="tl-note">' + note + '</span></li>';
+  }).join('') + '</ol>';
+}
+
+function renderTrackData(d, demo) {
+  const c = CARRIERS[d.carrier];
+  const stages = d.stages || [];
+  $('#trackResult').innerHTML = '<div class="card track-card">' +
+    (demo ? '<div class="demo-banner"><b>ДЕМО</b><span>Тестовые данные для показа интерфейса. Это не настоящее отправление.</span></div>' : '') +
+    '<div class="facts-grid">' + fact('Номер отправления', d.track) + fact('Логистическая компания', c.name) +
+    fact('Дата отправки', demo ? d.sentAt : fmtDate(d.sentAt)) + fact('Текущий статус', d.status) +
+    fact('Последнее известное местоположение', d.location) + fact('Дата последнего обновления', demo ? d.updatedAt : fmtDate(d.updatedAt)) + '</div>' +
+    timelineHtml(stages, demo) +
+    '<div class="inline-actions" style="margin-top:22px">' + extLink(officialTrackUrl(d.carrier, d.track), 'Открыть на сайте ' + esc(c.name) + ' ' + icon('ext'), 'btn btn-secondary') + '</div></div>';
+}
+
+function renderTrackMessage(kind, title, text, carrier, track) {
+  const c = CARRIERS[carrier];
+  const cls = kind === 'err' ? 'notice-err' : 'notice-warn';
+  $('#trackResult').innerHTML = '<div class="card track-card"><div class="notice ' + cls + '" role="alert">' + icon('alert') +
+    '<div><strong>' + title + '</strong><p>' + text + '</p></div></div>' +
+    '<div class="inline-actions">' +
+    '<button type="button" class="btn btn-primary" data-open-track="' + carrier + '" data-track="' + esc(track) + '">' + icon('ext') + ' Открыть сайт ' + esc(c.name) + ' и скопировать номер</button>' +
+    '<button type="button" class="btn btn-ghost" data-copy="' + esc(track) + '">' + icon('copy') + ' Скопировать номер</button></div></div>';
+}
+
+function onTrackSubmit(e) {
+  e.preventDefault();
+  const carrier = selectedTrackCarrier();
+  const input = $('#trackNumber'), err = $('#trackErr');
+  const track = input.value.trim().replace(/\s+/g, '');
+  const setBad = function (msg) { input.classList.toggle('invalid', !!msg); err.textContent = msg || ''; };
+  $('#trackResult').innerHTML = '';
+
+  if (!track) { setBad('Введите трек-номер.'); input.focus(); return; }
+  const demo = /^DEMO[-_]?([1-6])?$/i.exec(track);
+  if (demo) {
+    setBad('');
+    renderTrackData(demoTracking(carrier, track.toUpperCase(), Number(demo[1] || 3)), true);
+    return;
+  }
+  if (!TRACK_RULES[carrier].test.test(track)) {
+    setBad('Отправление не найдено. Проверьте правильность трек-номера.');
+    $('#trackResult').innerHTML = '<div class="card track-card"><div class="notice notice-err" role="alert">' + icon('alert') +
+      '<div><strong>Отправление не найдено</strong><p>Отправление не найдено. Проверьте правильность трек-номера.</p><p class="small">Ожидаемый формат: ' + esc(TRACK_RULES[carrier].hint) + '</p></div></div></div>';
+    input.focus(); return;
+  }
+  setBad('');
+  $('#trackResult').innerHTML = '<div class="card track-card"><p class="muted" style="margin:0">Ищем отправление…</p></div>';
+  fetchTracking(carrier, track).then(function (data) {
+    renderTrackData({ track: data.track || track, carrier: carrier, sentAt: data.sentAt, status: data.status,
+                      location: data.location, updatedAt: data.updatedAt, stages: data.stages || [] }, false);
+  }).catch(function (e2) {
+    if (e2.code === 'NOT_FOUND') {
+      renderTrackMessage('err', 'Отправление не найдено', 'Отправление не найдено. Проверьте правильность трек-номера.', carrier, track);
+    } else if (e2.code === 'NO_API') {
+      renderTrackMessage('warn', 'Нет подключения к API перевозчика',
+        'Forge Track работает без сервера, поэтому не может получить реальный статус отправления, а выдумывать его мы не будем. Откройте официальную страницу ' + esc(CARRIERS[carrier].name) + ': номер будет скопирован, останется вставить его в поле поиска.', carrier, track);
+    } else {
+      renderTrackMessage('warn', 'Сервер отслеживания временно недоступен', 'Не удалось получить данные. Проверьте подключение к интернету или воспользуйтесь официальной страницей перевозчика.', carrier, track);
+    }
+  });
+}
+
+function onTrackClick(e) {
+  const open = e.target.closest('[data-open-track]');
+  if (open) {
+    const id = open.getAttribute('data-open-track'), track = open.getAttribute('data-track');
+    copyText(track).then(function (ok) {
+      toast(ok ? 'Номер скопирован — вставьте его в поле поиска на сайте перевозчика' : 'Не удалось скопировать — введите номер вручную', ok ? 'ok' : 'error');
+    });
+    window.open(officialTrackUrl(id, track), '_blank', 'noopener');
+    return;
+  }
+  const cp = e.target.closest('[data-copy]');
+  if (cp) copyText(cp.getAttribute('data-copy')).then(function (ok) { toast(ok ? 'Номер скопирован' : 'Не удалось скопировать', ok ? 'ok' : 'error'); });
+}
+const DOC_ITEMS = {
+  id:        ['Удостоверение личности (паспорт)', 'Нужно перевозчику при приёме отправления от физического лица. Для получателя документ обычно проверяют при выдаче.'],
+  idRep:     ['Документ представителя и доверенность', 'Если груз сдаёт сотрудник, а не руководитель: его удостоверение личности и доверенность на отправку (у Jet Logistic на сайте есть образец).'],
+  waybill:   ['Транспортная накладная', 'Оформляется при приёме груза (у Jet Logistic — экспедиторская расписка, при международных автоперевозках — CMR). Проверьте данные отправителя и получателя.'],
+  contract:  ['Договор или оферта перевозчика', 'Для юридических лиц: условия транспортной экспедиции (у ряда перевозчиков принимаются офертой при сдаче груза).'],
+  invoice:   ['Коммерческий инвойс (счёт-фактура)', 'Подтверждает стоимость и условия поставки. Нужен для таможенного оформления и расчёта пошлин и налогов.'],
+  proof:     ['Подтверждение стоимости товара', 'Чек, заказ или счёт: помогает при оценке, страховании и в вопросах таможни.'],
+  packing:   ['Упаковочный лист (Packing List)', 'Перечень мест, веса, габаритов и содержимого каждого места.'],
+  inventory: ['Опись вложения', 'Если в посылке несколько предметов — перечень вложений (у Jet Logistic на сайте есть образец описи).'],
+  customs:   ['Таможенная декларация', 'Нужна при вывозе и ввозе товаров за пределы ЕАЭС. Обычно оформляется таможенным брокером или перевозчиком по вашим документам.'],
+  cn22:      ['Таможенная декларация CN 22 / CN 23', 'Для международных почтовых отправлений: формы Всемирного почтового союза (для EMS — также бланк E1). Заполняются при отправке в отделении.'],
+  eaeuTax:   ['Заявление о ввозе товаров и уплате косвенных налогов', 'Для коммерческих поставок между странами ЕАЭС: обычно оформляет получатель-импортёр по правилам своей страны.'],
+  origin:    ['Документ о происхождении товара', 'Например, сертификат происхождения (форма СТ-1 для стран СНГ) — только если нужен для тарифных льгот или требуется покупателем либо страной назначения.'],
+  certs:     ['Сертификаты соответствия и разрешительные документы', 'Нужны для регулируемых категорий (электроника, детские товары, косметика, медицинские изделия, продукты и др.). Перечень зависит от товара и страны.'],
+  snt:       ['СНТ / ЭСФ (электронные накладные и счета-фактуры)', 'Для юридических лиц Казахстана — если применимо к вашей операции. Уточните у бухгалтера или налогового консультанта.'],
+  banned:    ['Проверка перечня запрещённых и ограниченных вложений', 'Сверьте груз со списками перевозчика (у Jet Logistic — «Перечень грузов, не принимаемых к перевозке» и список опасных грузов; у Казпочты — «Предметы, запрещённые к пересылке»).']
+};
+const docChecked = {};   
+let docsReady = false;
+
+function buildDocLists(p) {
+  const bothEaeu = EAEU.indexOf(p.from) >= 0 && EAEU.indexOf(p.to) >= 0;
+  const intl = p.from !== p.to;
+  const personal = p.kind === 'personal', individual = p.sender === 'individual';
+  const main = [], extra = [];
+
+  if (individual) main.push('id'); else extra.push('idRep');
+  main.push('waybill');
+  if (!individual && !personal) main.push('contract');
+  if (personal) { extra.push('proof'); extra.push('inventory'); } else { main.push('invoice'); main.push('packing'); }
+
+  if (intl && !bothEaeu) { if (personal) main.push('cn22'); else main.push('customs'); }
+  if (intl && bothEaeu && !personal) extra.push('eaeuTax');
+  if (intl && !bothEaeu && !personal) extra.push('origin');
+  if (!personal) extra.push('certs');
+  if (p.from === 'KZ' && !individual && !personal) extra.push('snt');
+  extra.push('banned');
+  return { main: main, extra: extra, bothEaeu: bothEaeu, intl: intl };
+}
+
+function docItemHtml(id) {
+  const on = !!docChecked[id], d = DOC_ITEMS[id];
+  return '<label class="check-item' + (on ? ' checked' : '') + '"><input type="checkbox" data-doc="' + id + '"' + (on ? ' checked' : '') + '>' +
+         '<span><strong>' + esc(d[0]) + '</strong><span>' + esc(d[1]) + '</span></span></label>';
+}
+function docGroupHtml(title, ids) {
+  return '<div class="card doc-group"><h2>' + title + '<span class="count-badge">' + ids.length + '</span></h2>' + ids.map(docItemHtml).join('') + '</div>';
+}
+
+function renderDocs() {
+  if (!docsReady) {
+    const opts = DEST_COUNTRIES.map(function (c) { return '<option value="' + c + '">' + esc(COUNTRIES[c].name) + '</option>'; }).join('');
+    $('#docFrom').innerHTML = opts; $('#docTo').innerHTML = opts;
+    $('#docFrom').value = 'KZ'; $('#docTo').value = 'KG';
+    docsReady = true;
+  }
+  const p = { from: $('#docFrom').value, to: $('#docTo').value, sender: $('#docSender').value, kind: $('#docKind').value };
+  const L = buildDocLists(p);
+  let h = '';
+  if (!L.intl) {
+    h += '<div class="notice notice-info">' + icon('info') + '<div><strong>Отправление внутри страны</strong><p>Таможенные документы не нужны. Основа — документы для перевозчика и подтверждение стоимости.</p></div></div>';
+  } else if (L.bothEaeu) {
+    h += '<div class="notice notice-info">' + icon('info') + '<div><strong>Оба государства входят в ЕАЭС</strong><p>Таможенного декларирования на границе, как правило, не требуется, но для коммерческих поставок могут понадобиться налоговые документы и документы на товар.</p></div></div>';
+  } else {
+    h += '<div class="notice notice-warn">' + icon('alert') + '<div><strong>Направление за пределы ЕАЭС</strong><p>Потребуется таможенное оформление. Требования страны назначения проверяйте заранее — они могут менять сроки и стоимость.</p></div></div>';
+  }
+  h += docGroupHtml('Основные документы', L.main) + docGroupHtml('Дополнительные документы (по ситуации)', L.extra);
+  $('#docList').innerHTML = h;
+  updateDocProgress(L.main.concat(L.extra));
+  $('#docList').setAttribute('data-ids', L.main.concat(L.extra).join(','));
+}
+
+function updateDocProgress(ids) {
+  const done = ids.filter(function (id) { return docChecked[id]; }).length;
+  const pct = ids.length ? Math.round(done * 100 / ids.length) : 0;
+  $('#docProgressBar').style.width = pct + '%';
+  $('#docProgress').setAttribute('aria-valuenow', String(pct));
+  $('#docProgressText').textContent = 'Отмечено ' + done + ' из ' + ids.length;
+}
+
+function onDocChange(e) {
+  const box = e.target.closest('input[data-doc]');
+  if (!box) return;
+  docChecked[box.getAttribute('data-doc')] = box.checked;
+  box.closest('.check-item').classList.toggle('checked', box.checked);
+  updateDocProgress($('#docList').getAttribute('data-ids').split(','));
+}
+function init() {
+  $('#footYear').textContent = new Date().getFullYear();
+
+  $('#navToggle').addEventListener('click', function () {
+    const open = !$('#mainNav').classList.contains('open');
+    $('#mainNav').classList.toggle('open', open);
+    this.setAttribute('aria-expanded', String(open));
+    this.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+
+  document.addEventListener('click', function (e) {
+    const g = e.target.closest('[data-go]');
+    if (g) { e.preventDefault(); go(g.getAttribute('data-go')); }
+  });
+  window.addEventListener('hashchange', function () { showPage(location.hash.slice(1)); });
+  $('#page-direction').addEventListener('click', onWizardClick);
+  $('#page-direction').addEventListener('change', onWizardChange);
+  const host = $('#calcHost');
+  host.addEventListener('submit', onCalcSubmit);
+  host.addEventListener('reset', onCalcReset);
+  host.addEventListener('click', function (e) {
+    const t = e.target.closest('[data-tab]');
+    if (t) selectTab(t.getAttribute('data-tab'));
+  });
+  $('#trackForm').addEventListener('submit', onTrackSubmit);
+  $$('input[name="trackCarrier"]').forEach(function (r) {
+    r.addEventListener('change', function () { updateTrackingUI(); $('#trackResult').innerHTML = ''; $('#trackErr').textContent = ''; });
+  });
+  $('#trackDemoBtn').addEventListener('click', function () {
+    $('#trackNumber').value = 'DEMO-3'; $('#trackNumber').focus();
+    toast('Подставлен демо-номер. Цифра 1–6 в конце — этап доставки.');
+  });
+  $('#trackResult').addEventListener('click', onTrackClick);
+  $('#trackNumber').addEventListener('input', function () { this.classList.remove('invalid'); $('#trackErr').textContent = ''; });
+
+  // документы
+  ['docFrom', 'docTo', 'docSender', 'docKind'].forEach(function (id) { $('#' + id).addEventListener('change', renderDocs); });
+  $('#docList').addEventListener('change', onDocChange);
+  $('#docReset').addEventListener('click', function () {
+    Object.keys(docChecked).forEach(function (k) { delete docChecked[k]; });
+    renderDocs(); toast('Отметки сброшены');
+  });
+  $('#docPrint').addEventListener('click', function () { window.print(); });
+
+  showPage(location.hash.slice(1));
+}
+init();
+</script>
+</body>
+</html>
